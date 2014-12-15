@@ -1,0 +1,64 @@
+<?xml version="1.0" ?>
+<hemelbsettings version="3">
+  <simulation>
+    <step_length units="s" value="0.0001" />
+    <steps units="lattice" value="1000" />
+    <stresstype value="1" />
+    <voxel_size units="m" value="5e-05" />
+    <origin units="m" value="(0.00977796478271,0.0340714935303,0.0407484436035)" />
+  </simulation>
+  <geometry>
+    <datafile path="bifurcation-50ummm.gmy" />
+  </geometry>
+  <inlets>
+    <inlet>
+      <condition type="pressure" subtype="cosine">
+        <amplitude value="0.0" units="mmHg" />
+        <mean value="0.0" units="mmHg" />
+        <phase value="0.0" units="rad" />
+        <period value="1.0" units="s" />
+      </condition>
+      <normal units="dimensionless" value="(-0.0560777474941,0.762765339939,0.644239336291)" />
+      <position units="m" value="(0.0124882418436,0.0347530206156,0.0417894982111)" />
+    </inlet>
+  </inlets>
+  <outlets>
+    <outlet>
+      <condition type="pressure" subtype="cosine">
+        <amplitude value="0.0" units="mmHg" />
+        <mean value="0.0" units="mmHg" />
+        <phase value="0.0" units="rad" />
+        <period value="1.0" units="s" />
+      </condition>
+      <normal units="dimensionless" value="(0.346310321126,-0.936505814386,-0.0550092819616)" />
+      <position units="m" value="(0.012599904752,0.0478860470693,0.0431766136802)" />
+    </outlet>
+    <outlet>
+      <condition type="pressure" subtype="cosine">
+        <amplitude value="0.0" units="mmHg" />
+        <mean value="0.0" units="mmHg" />
+        <phase value="0.0" units="rad" />
+        <period value="1.0" units="s" />
+      </condition>
+      <normal units="dimensionless" value="(0.0881984197649,-0.866271816859,-0.491725714263)" />
+      <position units="m" value="(0.0113540257616,0.0467532491832,0.0502318872789)" />
+    </outlet>
+  </outlets>
+  <visualisation>
+    <centre units="m" value="(0.0,0.0,0.0)" />
+    <orientation>
+      <longitude units="deg" value="45.0" />
+      <latitude units="deg" value="45.0" />
+    </orientation>
+    <display brightness="0.03" zoom="1.0" />
+    <range>
+      <maxvelocity units="m/s" value="0.1" />
+      <maxstress units="Pa" value="0.1" />
+    </range>
+  </visualisation>
+  <initialconditions>
+    <pressure>
+      <uniform units="mmHg" value="0.0" />
+    </pressure>
+  </initialconditions>
+</hemelbsettings>

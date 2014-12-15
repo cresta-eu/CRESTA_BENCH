@@ -1,0 +1,96 @@
+#
+# This file describes briefly how to build PETSc 3.2 libraries on ARCHER (Cray XC30)
+#
+
+1. PRE-CONFIGURATION:
+
+   The CRESTA Benchmark Suite is using the Intel compiler to compile ELMFIRE, so the  Intel 
+   environment should also be used to build PETSc libraries. Cmake is also needed. 
+
+            module swap PrgEnv-cray PrgEnv-intel 
+ 	    module load cmake
+  
+   Once inside the petsc-3.2-p7 directory set PETSC_DIR and PETSC_ARCH
+   	   e.g.:   
+    	       	   export PETSC_DIR=`pwd`
+    		   export PETSC_ARCH=archer_intel    
+
+2. CONFIGURATION :
+
+   Configure with the following options:
+
+    ./configure 
+    	--with-cc=cc 
+	--with-cxx=CC 
+	--with-fc=ftn 
+	--with-batch=1 
+	--known-mpi-shared-libraries=0 
+	--with-clib-autodetect=0 
+	--with-cxxlib-autodetect=0 
+	--with-fortran-autodetect=0 
+	--with-debugging=0 
+	--with-shared-libraries=0 
+	--with-ranlib=ranlib 
+	COPTFLAGS="-O3 -xavx -fPIC" 
+	CXXOPTFLAGS="" 
+	FOPTFLAGS="-O3 -xavx -fPIC" 
+	--with-dynamic-loading=0 
+	--with-pthread=0
+
+   The configuration will provide the information about reconfiguration 
+          e.g. :
+
+=================================================================================   
+Since your compute nodes require use of a batch system or mpiexec you must:  
+1) Submit ./conftest-archer_intel to 1 processor of your batch system or system you 
+are cross-compiling for; this will generate the file reconfigure.py              
+2) Run ./reconfigure-archer_intel.py (to complete the configure process).                    
+=================================================================================
+
+   You can do this using the provided conftest.pbs file. If your PETSC_ARCH is
+   different than archer_intel then you need to modify the conftest.pbs file 
+   changing conftest-archer_intel to conftest-your_PETSC_ARCH. Then submit the 
+   script : 
+
+    	   	 qsub conftest.pbs
+
+   After the job finished running reconfigure:
+      	  e.g. :
+      	      	 ./reconfigure-archer_intel.py
+
+
+3. BUILD :
+
+   !! IMPORTANT NOTE !!
+   Before following the build instructions on ARCHER you need to ‘scrub the headers’. 
+   This is a system specific step and currently is only necessary on Cray systems. This may
+   not be required on other machines.
+   
+   The provided script scrub_headers.sh will take care of that. Run it on PETSC_ARCH
+   directory :
+
+     	       ./scrub_headers.sh archer_intel  
+
+
+   Than follow the build instructions 
+          e.g. :
+	       make PETSC_DIR=/work/.../ELMFIRE/src/petsc-3.2-p7 PETSC_ARCH=archer_intel all
+
+
+
+4. TESTING
+
+   Since the compute nodes are using the batch system it is not possible to run make 
+   test directly to verify whether the libraries were installed correctly. You can run 
+   make test   
+   	e.g. :
+   	       make PETSC_DIR=/work/.../ELMFIRE/src/petsc-3.2-p7 PETSC_ARCH=archer_intel test
+
+   and then copy the compile and link options and run them inside src/snes/examples/tutorials. 
+   Once the executables are created modify the PETSC_DIR and PETSC_ARCH accordingly inside the 
+   examples.pbs script and then submit it to the backend.
+
+   If the examples run correctly the libraries have been installed properly. 
+
+   
+

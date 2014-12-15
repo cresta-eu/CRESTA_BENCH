@@ -1,0 +1,12 @@
+This benchmark consists of a two lipid vesicles tethered by a small chemical
+linker, and is used to study fusion. The system size is quite large, roughly
+2.5 million atoms, and it is very slow to simulate on normal workstations.
+
+It uses a 4fs time step, virtual sites, and PME lattice summation.
+
+This system too is highly inhomogeneous and anisotropic, but due to the size
+it will scale better. It will run successfully on 10K+ cores; performance
+depends on the network conditions.
+
+Since it contains a lot of water, it is a relatively tough test for load
+balancing in particular (the vesicle part is slower to calculate).

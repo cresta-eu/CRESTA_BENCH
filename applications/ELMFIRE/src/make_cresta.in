@@ -1,0 +1,140 @@
+# Identifies machine type and load its defaults
+SHELL=/bin/bash
+MINAME?= $(shell uname -n)
+ELMVERSION=v11
+EXENAME:=elmfire.exe
+
+# Compilation options (overridable from command-line)
+AVL=no
+
+# Default target before architecture-dependent targets
+default: $(EXENAME)
+
+# Common tasks and variables
+include xtras/makefile.common
+
+# Machine defaults
+include xtras/makefile.$(MINAME)
+
+# Ouput directory
+ELMDIR:=#ELMDIR#
+ALLOBJDIR:=$(ELMDIR)/objects
+MACHDIR=$(ALLOBJDIR)/$(ELMVERSION).$(MINAME)
+OBJDIR=$(MACHDIR)/$(MPICOMP).$(MPILIB).$(CODE).$(AVL)AVL
+EXEDIR=$(ELMDIR)
+SRCSDIR=$(PWD)
+
+vpath % xtras
+vpath %.o $(OBJDIR)
+vpath %.mod $(OBJDIR)
+
+.SUFFIXES: .f .o .f90 .F .F90 .c .mod
+.PHONY: preCompile archPreCompile clean cleanall
+
+# Code Sources
+SRCS = elmfire enediag epara erfld \
+  firstt fluxes funcs ibmata ibmatxy inipos initia insmat3 \
+  mixer moveipr movepr nfilt noislv outend pchain \
+  poislv polari rnntrh runge scoop scoopv spaend \
+  stacka strage timingFunctions \
+  vdiag vorticity drifts qb2tor btc \
+  c_utils spaslv redistPart \
+  fileIO # nfft nfftc # xtraChecks 
+# Modules
+f90MOD= mkl_vsl constants elmTime quadpack lhOperator \
+      elmParticles elmFilters elmFields elmTag
+F90MOD= allocon elmParallel elmSolver elmGeometry elmRandom elmCollisions elmbgheating
+
+ifeq "$(AVL)" "yes"
+ SRCS += hashAvl
+ f90MOD+= elmAvl
+ AVLMOD=elmAvl
+else
+ F90MOD+= fakeAvl
+ AVLMOD=fakeAvl
+endif
+
+ifeq ($(RNDGEN),GSL)
+ SCRS += gslWrapper
+ f90MOD += gslInterface
+endif
+
+# Objects to be made
+SRCS:=$(addsuffix .o,$(SRCS))
+MODO:=$(addsuffix .o,$(f90MOD) $(F90MOD))
+OBJ= $(MODO) $(SRCS)
+
+# ============== Targets =======================
+
+$(EXENAME): preCompile $(OBJ)
+	cd $(OBJDIR); \
+      $(FC) -o $(EXEDIR)/$@ $(OBJ) $(LFLAGS)
+	@echo The executable was placed in $(EXEDIR)
+
+phars: phars.o
+	$(FC) -o $@ $^
+
+test: petsctest.o
+	$(FC) -o $@ $^ $(LINK_PETSC) $(LINK_BLACS) $(LINK_BLAS)
+
+preCompile: archPreCompile
+	@if [ -f $(OBJDIR) ] && [ ! -d $(OBJDIR) ]; then rm $(OBJDIR); fi
+	@if [ ! -d $(OBJDIR) ]; then mkdir -p $(OBJDIR); fi
+
+# ============== Rules =======================
+
+# More dependencies
+include xtras/depends.mak
+
+# Additional variables
+$(addsuffix .o,$(USES_PETSC)): CPPFLAGS+= $(PETSC_INCLUDES)
+$(addsuffix .o,$(USES_PETSC)): FPPFLAGS+= $(PETSC_INCLUDES)
+$(addsuffix .o,$(USES_GSL)):   CPPFLAGS+= $(GSL_INCLUDES)
+$(addsuffix .o,$(USES_PESSL)): FFLAGS+= $(PESSL_INCLUDES)
+$(addsuffix .o,$(USES_NFFT)):  CPPFLAGS+= $(NFFT_INCLUDES)
+
+# Fixed form or Fortran 77
+%.o: %.f
+	$(FC) -c $(FFIXED) $(FFLAGS) -o $(OBJDIR)/$@ $<
+
+%.o : %.F
+	$(FC) -c $(FPPFLAGS) $(FFIXED) $(FFLAGS) -o $(OBJDIR)/$@ $<
+
+# Fortran 90 in free form
+%.o : %.f90
+	$(FC) -c $(FFREE) $(FFLAGS) -o $(OBJDIR)/$@ $<
+
+%.o : %.F90
+	$(FC) -c $(FPPFLAGS) $(FFREE) $(FFLAGS) -o $(OBJDIR)/$@ $<
+
+%.o : %.c
+	$(CC) -c $(CPPFLAGS) $(CFLAGS) -o $(OBJDIR)/$@ $<
+
+# Compilation rules for modules (MODULEFILE) defined elsewhere
+
+$(addsuffix .o,$(f90MOD)): %.o : %.f90
+	$(FC) -c $(FFREE) $(FFLAGS) -o $(OBJDIR)/$@ $<
+	@-mv *.mod $(OBJDIR) >& /dev/null
+#	@if [ -e $(MODULEFILE) ]; then mv $(MODULEFILE) $(OBJDIR); fi
+
+$(addsuffix .o,$(F90MOD)): %.o : %.F90
+	$(FC) -c $(FPPFLAGS) $(FFREE) $(FFLAGS) -o $(OBJDIR)/$@ $<
+	@-mv *.mod $(OBJDIR) >& /dev/null
+
+# ============== Utilities =======================
+
+ddtest: ddtest.o constants.o elmParticles.o
+	cd $(OBJDIR); \
+	$(FC) -o ../$@ ddtest.o constants.o elmParticles.o
+
+clean: 
+	-rm -rf $(OBJDIR) $(EXEDIR)/elmfire
+
+cleanmachine: 
+	-rm -rf $(MACHDIR) $(EXEDIR)/elmfire
+
+cleanall: 
+	-rm -rf $(ALLOBJDIR) $(EXEDIR)/elmfire $(EXEDIR)/elmfire-$(ELMVERSION)
+
+showdir: 
+	@echo Output directory: $(ELMDIR)

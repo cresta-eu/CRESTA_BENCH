@@ -1,0 +1,36 @@
+<result>
+    <show active="1" colw="20">
+    nodes,ncpus,
+    walltime,
+    total_solver_time,
+    time_per_timestep,
+    </show>
+    <sort>
+      ncpus,
+    threads,
+    walltime
+    </sort>
+</result>
+
+<!-- all
+ HPMwtimeSum,    
+ HPMwtimeAvg,    
+ HPMutimeSum,    
+ HPMwtimeAvg,    
+ HPMstimeSum,    
+ HPMstimeAvg,    
+ HPMressizeSum,  
+ HPMressizeAvg,  
+ HPMtflopsSum,   
+ HPMtflopsAvg,   
+ HPMflopsWCT,    
+ HPMflopsUser,   
+ HPMFMPpercSum,     
+ HPMFMPpercAvg,     
+ HPMpercPeakSum, 
+ HPMpercPeakAvg, 
+ HPMflopsCPU,    
+ HPMflopsUserCPU,
+ HPMflopsCPUglobal,
+ walltime
+-->

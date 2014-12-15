@@ -1,0 +1,28 @@
+
+; Include forcefield parameters
+#include "amber99sb-ildn_lipid.ff/forcefield.itp"
+
+; Include chain topologies
+#include "subunit_vsite.itp"
+
+
+; Include water topology
+#include "amber99sb-ildn_lipid.ff/tip3p.itp"
+
+;Lipids
+#include "amber99sb-ildn_lipid.ff/dopc.itp"
+
+; Include topology for ions
+#include "amber99sb-ildn_lipid.ff/ions.itp"
+
+[ system ]
+; Name
+Protein
+
+[ molecules ]
+; Compound        #mols
+GluCl_monomer       5
+DOPC                304
+SOL		    32646
+NA 	            59
+CL		    69

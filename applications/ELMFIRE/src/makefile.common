@@ -1,0 +1,44 @@
+# This script is called by the main makefile
+
+# Debugger or not
+CODE=OPT
+SUFFIX=
+ifeq ($(DEBUG),y)
+ CODE=DBG
+ SUFFIX=-debug
+endif
+ifeq ($(DEBUG),p)
+ CODE=PRF
+ SUFFIX=
+endif
+
+# Special cases when handling the hostname
+MINAME:= $(firstword $(subst ., ,$(MINAME)))
+
+ifneq '$(findstring p690,$(MINAME))' ''
+ MINAME= p690m
+endif
+
+ifneq '$(findstring louhi,$(MINAME))' ''
+ MINAME= louhi
+endif
+
+ifneq '$(findstring jj28,$(MINAME))' ''
+ MINAME= juropa
+endif
+
+ifneq '$(findstring c55,$(MINAME))' ''
+ MINAME= murska
+endif
+
+#ifneq '$(findstring login,$(MINAME))' ''
+# MINAME= cesvima
+#endif
+
+ifneq '$(findstring hector,$(MINAME))' ''
+ MINAME= hector
+endif
+
+ifneq '$(findstring login,$(MINAME))' ''
+ MINAME= archer
+endif

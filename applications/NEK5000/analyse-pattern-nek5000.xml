@@ -1,0 +1,9 @@
+<patterns>
+
+<parm name="walltime" unit="s" mode="line" type="float">total elapsed time\s*$patnwrd\s*$patfp</parm>
+
+<parm name="total_solver_time" unit="s" mode="line" type="float">total solver time incl. I/O\s*$patnwrd\s*$patfp </parm>
+
+<parm name="time_per_timestep" unit="s" mode="line" type="float">time/timestep\s*$patnwrd\s*$patfp </parm>
+
+</patterns>

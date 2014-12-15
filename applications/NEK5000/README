@@ -1,0 +1,136 @@
+###############################################################################
+#                                                                             #
+#	  CRESTA BENCHMARK SUITE -                                            #
+#  	                          NEK5000 (v.1.0rc1 / SVN r 1036)             #
+#                                                                             #
+#                                                                             #
+###############################################################################
+
+
+1. PREPARATION
+
+   There should be no need to modify any of the configuration files.  All you 
+   need to adapt is the bench-Cray-XC30-ARCHER.xml file. Available options are 
+   mentioned in the CRESTA_BENCH/README file and some additional notes are
+   included below.  
+
+   Nek5000 uses Cray programming environment.
+
+   PLEASE NOTE: if the length of the absolute path to the input files is too
+   long the application will fail with the following error message: 
+   
+
+      sys-2 : UNRECOVERABLE error on system request 
+      No such file or directory
+
+      Encountered during an OPEN of unit 9
+      Fortran unit 9 is not connected
+      _pmiu_daemon(SIGCHLD): [NID 01925] [c2-1c0s1n1] [Fri Oct 24 11:17:05 2014]
+      PE RANK 0 exit signal Aborted
+      [NID 01925] 2014-10-24 11:17:05 Apid 11699524: initiated application 
+      termination 
+      
+   To avoid this problem you should put the benchmark directory as high as 
+   possible in the directory hierarchy of your work directory. 
+
+
+2. RUNNING BENCHMARKS
+
+    2.1 EXAMPLE CASES 
+    	
+    
+      * pipe (stenosis)  
+
+      The pipe flow has been the prime canonical case for reaching high Reynolds
+      numbers of flows. Thus the main case example for NEK5000 in the CRESTA 
+      benchmark suite is a stenotic pipe with an eccentricity (i.e. a pipe with
+      a stenosis that is offset from the axis).
+ 
+      Some of the used parameters are:
+
+      	   - in the SIZE file:
+
+     	      parameter (ldim=3)
+      	      parameter (lx1=16,ly1=lx1,lz1=lx1,lelt=410,lelv=lelt)
+     	      parameter (lxd=16,lyd=lxd,lzd=lxd)
+     	      parameter (lelx=1,lely=1,lelz=1)
+
+           -  in pipe.rea :
+
+                1000.000         p11 NSTEPS
+              -2.5000000E-04     p12 DT
+
+    As there is only one case example it is possible to increase the problem
+    complexity through increasing order of the polynomial, increasing the number 
+    of timesteps and decreasing the the time increment between timesteps.   
+
+
+    2.2 RUN OPTIONS 
+
+    * VERSION
+    
+    NEK5000 does not take any runtime parameters, which means that the source
+    code needs to be re-compiled for every change in the input parameters. This
+    means that if you want to run different case examples you need to set the 
+    version tag to ‘new’.  
+
+    !! PLEASE NOTE: This makes it impossible to run different types of example 
+    cases in the same benchmark run (i.e. you can have active=1 set for only 
+    one test case at a time). Having more than one test case active will not 
+    result in an error, and the jobs will still executer, however the results 
+    will only be correct for the first case - all subsequent cases will run 
+    with their correct input files, but all other parameters will relate to
+    the first case).
+
+    NEK5000 is set up in the benchmark suite in a way that does not require 
+    copying of the source code into the temporary directory of a given 
+    benchmark run and so there is not significant overhead associated with 
+    having version set to ‘new’. 
+
+      
+ 
+    * TIME_LIMIT
+
+    Running the pipe case example with the above settings on 1 node takes about
+    12 min. Increasing the number of steps (parameter p11 NSTEPS), making the 
+    increment time smaller (parameter p12 DT) and/or increasing order of the 
+    polynomial (lx1 and lxd in SIZE file) will make the execution time slower and 
+    time_limit should be adjusted accordingly.     
+      
+
+    * NODES
+    
+    There are two limits on the number of processors that can be used to run the
+    case examples. The first one is determined by the lp parameter set inside 
+    the SIZE input file. Currently, for the stenosis pipe example, it is set to 512, 
+    which means it could be run on up to 21 nodes. 
+ 
+    If you try to run the code on larger number of processors than specified by the
+    lp parameter you will get the following error:
+
+
+         ERROR: Code compiled for a max of 512  processors.
+         Recompile with LP = XX (number you tried)or run with fewer processors.
+  
+    However, even if you use fewer processors than the maximum number, but have 
+    too few elements, the program will fail to run:
+
+    	 mapping elements to processors
+ 	 ABORT: Too many processors ( 504 ) for too few elements ( 400 ).
+  	 ABORTING IN MAPELPR.
+
+
+    Taking into account both limits, the pipe stenosis case can be run on up to
+    16 nodes. 
+
+
+    2.3 RESULTS
+
+    The following results are reported:
+    	
+     * walltime - gives the total elapsed time in seconds
+     * total_solver_time - gives the total time including I/O in seconds
+     * time per timestep - gives time per timestep in seconds
+
+
+    More output data are inside the stdout log file.

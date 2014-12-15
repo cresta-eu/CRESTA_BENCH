@@ -1,0 +1,79 @@
+<?xml version="1.0" ?>
+<hemelbsettings version="3">
+  <simulation>
+    <step_length units="s" value="0.0001" />
+    <steps units="lattice" value="50000" />
+    <stresstype value="1" />
+    <voxel_size units="m" value="3.3e-06" />
+    <origin units="m" value="(-0.0123984726196,0.00856547548828,-0.0111457077026)" />
+  </simulation>
+  <geometry>
+    <datafile path="CircleofWillisT_3.3e-5.gmy" />
+  </geometry>
+  <inlets>
+    <inlet>
+      <condition>You must define the condition to be enforced by hand. Sorry!</condition>
+      <normal units="dimensionless" value="(0.120119771897,0.0025632882703,0.992756097918)" />
+      <position units="m" value="(-0.00964860639993,0.0102032757487,-0.0108479345283)" />
+    </inlet>
+    <inlet>
+      <condition>You must define the condition to be enforced by hand. Sorry!</condition>
+      <normal units="dimensionless" value="(-0.0509740060444,0.0131093131069,0.998613937725)" />
+      <position units="m" value="(-0.0105008696888,0.0112331818711,-0.0109564477835)" />
+    </inlet>
+    <inlet>
+      <condition>You must define the condition to be enforced by hand. Sorry!</condition>
+      <normal units="dimensionless" value="(0.0487126820609,0.0992677092056,0.99386769568)" />
+      <position units="m" value="(-0.0081298296844,0.0111247114741,-0.0109335655836)" />
+    </inlet>
+  </inlets>
+  <outlets>
+    <outlet>
+      <condition>You must define the condition to be enforced by hand. Sorry!</condition>
+      <normal units="dimensionless" value="(0.758670738411,0.159151717585,-0.63173526217)" />
+      <position units="m" value="(-0.0115432357052,0.0094033514378,-0.00962160346687)" />
+    </outlet>
+    <outlet>
+      <condition>You must define the condition to be enforced by hand. Sorry!</condition>
+      <normal units="dimensionless" value="(-0.284107731544,0.691310965757,-0.664358296028)" />
+      <position units="m" value="(-0.00739278786231,0.00863342657251,-0.00989068112045)" />
+    </outlet>
+    <outlet>
+      <condition>You must define the condition to be enforced by hand. Sorry!</condition>
+      <normal units="dimensionless" value="(0.268563521225,-0.695728741777,0.66620954131)" />
+      <position units="m" value="(-0.012244192936,0.0125395236646,-0.0102557156298)" />
+    </outlet>
+    <outlet>
+      <condition>You must define the condition to be enforced by hand. Sorry!</condition>
+      <normal units="dimensionless" value="(-0.961382314503,0.154765056717,-0.227578168067)" />
+      <position units="m" value="(-0.00543576326168,0.0125083713532,-0.00981342820945)" />
+    </outlet>
+    <outlet>
+      <condition>You must define the condition to be enforced by hand. Sorry!</condition>
+      <normal units="dimensionless" value="(0.0151133555788,-0.999339422368,0.0330500436489)" />
+      <position units="m" value="(-0.00960392786391,0.0140193136522,-0.00761035945155)" />
+    </outlet>
+    <outlet>
+      <condition>You must define the condition to be enforced by hand. Sorry!</condition>
+      <normal units="dimensionless" value="(-0.0938329135508,-0.985969009908,-0.138059754582)" />
+      <position units="m" value="(-0.00935111796301,0.0140323943192,-0.00735762955657)" />
+    </outlet>
+  </outlets>
+  <visualisation>
+    <centre units="m" value="(0.0,0.0,0.0)" />
+    <orientation>
+      <longitude units="deg" value="45.0" />
+      <latitude units="deg" value="45.0" />
+    </orientation>
+    <display brightness="0.03" zoom="1.0" />
+    <range>
+      <maxvelocity units="m/s" value="0.1" />
+      <maxstress units="Pa" value="0.1" />
+    </range>
+  </visualisation>
+  <initialconditions>
+    <pressure>
+      <uniform units="mmHg" value="0.0" />
+    </pressure>
+  </initialconditions>
+</hemelbsettings>

@@ -1,0 +1,24 @@
+#!/bin/sh
+########################################################################
+###                                                                  ###
+###   Compile script for ELMFIRE                                     ###
+###                                                                  ###
+###   Last modified: 2014-09-29                                      ###
+###                                                                  ###
+########################################################################
+
+export MAKE="#MAKE#"
+
+#MODULE_INIT#
+#MODULE_CMD# #MODULE_FILES#
+
+module swap intel/14.0.4.211 intel/14.0.1.106
+
+# You only need to modify the PETSC_DIR and PETSC_ARCH 
+
+export PETSC_DIR=/work/d37/d37/wera/cresta/applications/ELMFIRE/src/petsc-3.2-p7 
+export PETSC_ARCH=archer_intel
+
+
+make -f make_cresta
+mv #OUTDIR#/elmfire.exe #EXECNAME#

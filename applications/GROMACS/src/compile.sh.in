@@ -1,0 +1,39 @@
+#!/bin/sh
+########################################################################
+###                                                                  ###
+###   Compile script for GROMACS                                     ###
+###                                                                  ###
+###   Last modified: 2014-11-06                                      ###
+###                                                                  ###
+########################################################################
+
+export MAKE="#MAKE#"
+
+#MODULE_INIT#
+#MODULE_CMD# #MODULE_FILES#
+
+export CC="#CC#"
+export CXX="#CXX#"
+export F77="#F77#"
+export F90="#F90#"
+toolchain="#TOOLCHAIN#"
+
+# Permit dynamic linking on Crays if static libs aren't found
+export XTPE_LINK_TYPE=dynamic
+
+module list
+cd gromacs-5.0.2
+mkdir -p build 
+cd build
+if [ "$toolchain" == "intel" ] ; then
+    fft="-DGMX_FFT_LIBRARY=mkl"
+else
+    fft="-DGMX_FFT_LIBRARY=fftw3 -DGMX_BUILD_OWN_FFTW=ON"
+fi
+
+cmake .. -DCMAKE_C_COMPILER=cc -DCMAKE_CXX_COMPILER=CC -DGMX_MPI=on -DGMX_OPENMP=ON -DGMX_X11=OFF -DGMX_BUILD_MDRUN_ONLY=ON -DCMAKE_INSTALL_PREFIX=#OUTDIR# -DCMAKE_SKIP_RPATH=YES -DGMX_BUILD_UNITTESTS=off -DGMX_EXTERNAL_BOOST=off -DHAVE_PWD_H=OFF $fft
+
+$MAKE -j 32 && $MAKE install
+mv #OUTDIR#/bin/mdrun_mpi #EXECNAME#
+
+

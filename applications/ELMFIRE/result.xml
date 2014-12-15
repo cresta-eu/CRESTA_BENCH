@@ -1,0 +1,21 @@
+<result>
+    <show active="1" colw="16">
+        nodes, ncpus,
+        walltime, cputime, init_particles, loop_600, loop_1600, matrix_inv,
+        data_trans
+    </show>
+    <sort>
+        ncpus, walltime
+    </sort>
+</result>
+
+<!-- all
+ walltime,
+ cputime,
+ init_particles
+ loop_600
+ loop_1600
+ matrix_inv
+ data_trans
+ particle_redist
+-->

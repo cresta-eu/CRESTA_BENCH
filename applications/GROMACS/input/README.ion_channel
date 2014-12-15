@@ -1,0 +1,24 @@
+Benchmark systems:
+
+The ion channel system is the membrane protein GluCl, which is a 
+pentameric chloride channel embedded in a lipid bilayer. This system
+contains roughly 150,000 atoms, and is a quite challenging parallelization
+case due to the small size. However, it is likely one of the most
+wanted target sizes for biomolecular simulations due to the importance
+of these proteins for pharmaceutical applications.
+
+It is particularly challenging due to a highly inhomogeneous and
+anisotropic environment in the membrane, which poses hard challenges for
+load balancing with domain decomposition.
+
+The baseline simulation is done with standard PME lattice summation
+for electrostatics, and cut-offs at 1.0 nm. 
+
+The default simulation uses 2.5fs time steps and constrained bonds, but
+then there are also two variations:
+* a simulation with vsites and 5fs time steps
+* a simulation with LJ-PME
+
+Gromacs can be run for 0.1 of an hour simply as
+
+<possible mpirun commands> mdrun -deffnm bench -maxh 0.1

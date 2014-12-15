@@ -1,0 +1,100 @@
+&title
+caseName='Bulanin'
+/
+&geom
+dnx=43, dnym=53, dnz=8
+/ 
+&elf1
+bgheat=0
+/
+
+&elf2
+ ms=90, m=86,86,86, l0=106,106,106, 
+ nz=16,16,16, n=59,59,59,
+ nv=100, nbste=50, ntstep=1, npam=1, nrep=1, nbs=50
+/
+
+&elf3
+ nbin=1, binii=1,binei=1,binee=1,pni=4, iquies=1
+/
+
+&elf4
+ rl=0.02, rr=0.03, thd=-1., dteco=1.,tteco=1.,dense=0.05,
+ tempe=0.02,ea=1,eb=1,eg=1.,
+ idiver=1, SOL=1, SOLstart=0.077, 
+ iback=1, irefl=1, orefl=0,ivisc=0, ipolar=1, itback=0
+/
+
+&elf5
+ tint=3e-8,ttint=30e-8,fac=0.1,callac=0.5,cgg=0.05,
+ vmax=6.e7,1e6,1.e6, tto=0.5,dan=0.,isat=1111,
+ integr=1,e2=1
+/
+
+&elf6
+ edc=-80000.,edw=0.02,cel=-20.,volt=400.,rb=0.46,
+ dneu=0.01,dnw=0.02,ineut=1,ibias=0,ierfield=1,iepfield=1,iezfield=1,
+ linlee=0,lpot=1,rpot=0,frl=0.,frr=0.,nsuod=0,psuod=0,
+ navelw=3,naveup=1,lfill=-1,dtol=0.025d-3,spadist=1
+/
+
+&elf7
+ dom=5.8e9,ey=50000.,wy=30000.,sig=1.,wz=0.,
+ rce=0.05,rde=0.03,ncondd=0
+/
+
+&elf8
+ epl=2500.,emep=0.,wyi=30.,wzi=0.,rci=-1.6,rdi=1.5,nre=1,ncondi=0
+/
+
+&elf9
+ eninit=0.4,ripc=0.0006,ripw=0.16,icx=0,ncoil=0
+/
+
+&elf10
+ nene=5,ltaus=1,ilar=0,itab=0
+/
+
+&elf11
+ vloop=0.d0,
+ zfr=0.020,0.020,0.020,0.020,0.020,0.020,0.020
+ dzfr=0.02,0.022,0.023,0.025,0.027,0.028,0.03,
+ 
+/
+
+&elf12
+ bt=2.2, ct=55.0d3, a=0.03, aw=0.03, r0=0.55
+/
+
+&elf13
+ plmass=5.485799e-4,1.0d0,16.,
+ plznum=-1,1,6,    
+ pltemp=0.125,0.125,0.125,
+ pldens=0.45e20,0.45e20,0.45e20,
+ hypen=2, hype=0,0,0,
+ ndelta=0.16d0,tdelta=0.03d0,0.03d0,0.03
+/
+
+&elmpaco
+ nchain=-2,3000,ifourSpaslv=1,ifourSpaend=0,
+ doEtagl=.TRUE.,doEtagr=.FALSE.,doMixerl=.TRUE.,doMixerr=.FALSE.,
+ useDnav00=.FALSE.,alphaAVL=16.
+/
+
+&elmiccom
+ eorim=3,adiab=0,vap=1,mcr=42,mct=27,dnv=1,
+ boxnx=10,boxny=10,boxnz=1,boxR=1,boxP=3
+/
+
+&elmDD
+ domainntot = 1
+/
+
+&vgeom
+ dnr=3,dnp=6,dnen=130,dnpi=130
+/
+
+&elmfft
+ dft=0,ndft=5
+/
+

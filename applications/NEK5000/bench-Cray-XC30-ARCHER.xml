@@ -1,0 +1,26 @@
+<!--
+    CRESTA Benchmark Suite
+
+    JUBE benchmark configuration schema for: NEK5000
+
+    Contact: w.filinger@epcc.ed.ac.uk
+-->
+
+<bench name = "NEK5000" platform = "Cray-XC30-ARCHER" >
+
+<benchmark name="pipe" active="1">
+    <!-- version="reuse|new" -->
+    <compile     cname="$platform" version="new" />
+    <tasks       threadspertask="1" 
+		 taskspernode="24" 
+		 nodes="1,2,4,8,16,32,64,128"  />
+    <params      time_limit="00:15:00"
+                 account="d37-ed"
+                 benchmark_name="pipe" />
+    <prepare     cname="pipe" />
+    <execution   iteration="1" cname="$platform" />
+    <verify      cname="NEK5000" />
+    <analyse     cname="$platform" />
+</benchmark>
+
+</bench>

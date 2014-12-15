@@ -1,0 +1,36 @@
+<compilation>
+
+<!-- predefined vars:
+   $outdir -> output directory for temporary compile files
+   $id     -> identifier of this benchmark run
+-->
+
+<!-- *************************************************************** -->
+
+<compile cname="Cray-XC30-ARCHER">
+    <params fflags=""
+            libpath=""
+            libs=""
+            optflags=""
+            ldflags=""
+            cppflags="" />
+    <!-- Specification of source files to copy into temporary build directory -->
+    <src directory="." files="src/makenek_cresta.in src/compile.sh.in input/pipe/*" />
+  
+  <!-- Create Makefile and substitute parameters -->
+    <substitute infile="makenek_cresta.in" outfile="makenek_cresta"> </substitute>
+ 
+    <substitute infile="compile.sh.in" outfile="compile.sh">
+        <sub from="#BENCHMARK_NAME#" to="$benchmark_name" />
+        <sub from="#MAKE#"           to="$make" />
+        <sub from="#OUTDIR#"         to="$outdir" />
+        <sub from="#EXECNAME#"       to="$execname" />
+    </substitute>
+                                            
+    <!-- issue build command -->
+    <command>/bin/bash --login compile.sh</command>
+                                                
+</compile>
+
+<!-- *************************************************************** -->
+</compilation>

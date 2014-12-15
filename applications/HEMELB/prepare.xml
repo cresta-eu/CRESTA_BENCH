@@ -1,0 +1,28 @@
+<preparation>
+
+<!-- ******************************************************************************** -->
+
+<prepare cname="bif-40um">
+ <input files="input/bif-40um/vel.txt input/bif-40um/config.xml input/bif-40um/bifurcation0.04.gmy" />
+</prepare>
+
+<prepare cname="bif-50um">
+ <input files="input/bif-50um/config.xml input/bif-50um/bifurcation-50ummm.gmy" />
+</prepare>
+
+<prepare cname="sandstone_1024">
+ <input files="input/sandstone_1024/config.xml input/sandstone_1024/sandstone.gmy" />
+</prepare>
+
+<prepare cname="cowTestVel_Large">
+ <input files="input/cowTestVel_Large/velocityInletBA.txt input/cowTestVel_Large/velocityInletL-ICA.txt input/cowTestVel_Large/velocityInletR-ICA.txt input/cowTestVel_Large/config.xml input/cowTestVel_Large/CircleofWillis_3.3e-5.gmy input/cowTestVel_Large/CircleofWillis_3.3e-5.pro input/cowTestVel_Large/CircleofWillis_3.3e-5.xml" />
+</prepare>
+
+
+<!-- ******************************************************************************** -->
+
+</preparation>
+
+
+
+

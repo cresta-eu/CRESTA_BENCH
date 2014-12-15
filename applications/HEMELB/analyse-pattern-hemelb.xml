@@ -1,0 +1,15 @@
+<patterns>
+
+  <parm name="walltime" unit="s" mode="line" type="float">Total\s*$patnfp\s*$patnfp\s*$patfp </parm>
+
+  <parm name="simulation_time" unit="s" mode="line" type="float">Simulation total\s*$patnfp\s*$patnfp\s*$patfp </parm>
+
+  <parm name="LB_calc_only" unit="s" mode="line" type="float">LB calc only\s*$patnfp\s*$patnfp\s*$patfp </parm>
+
+  <parm name="MPI_wait" unit="s" mode="line" type="float">MPI Wait\s*$patnfp\s*$patnfp\s*$patfp </parm>
+
+  <parm name="MPI_send" unit="s" mode="line" type="float">MPI Send\s*$patnfp\s*$patnfp\s*$patfp </parm>
+
+  <parm name="Monitoring" unit="s" mode="line" type="float">Monitoring\s*$patnfp\s*$patnfp\s*$patfp </parm>
+
+</patterns>

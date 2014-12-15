@@ -1,0 +1,102 @@
+# Makefile para archer
+# Defaults
+
+MPICOMP ?=intel
+#MPILIB ?=cray-mpich
+ARCH=intel
+
+ELMVERSION:=$(ELMVERSION)$(ARCH)
+
+# Random generator
+MATHLIB= MKL
+
+
+# Output directories
+WRKDIR:= $(HOME)/work
+
+# Compiler types
+FDBG= -g -ftrapuv -O0 -traceback
+FPRF= -qp -O
+CDBG= -g -ftrapuv -O0 -traceback
+CPRF= -qp -O
+ifeq ($(COMP),intel)
+FOPT= -fast -msse3 
+COPT= -fast -msse3
+else
+FOPT=  -ipo -O3
+COPT=  -ipo -O3
+endif
+
+BASE_FFLAGS= -auto -implicitnone -I$(OBJDIR)
+BASE_CFLAGS= 
+CPPFLAGS=
+FPPFLAGS=
+FFIXED= -fixed
+FFREE = -free
+MODULEFILE= \
+  $(addsuffix .mod,$(shell echo $* | tr '[:upper:]' '[:lower:]'))
+LOPT= -ipo
+
+
+
+FC = ftn
+CC = cc
+
+# Compiler options
+FFLAGS= $(F$(CODE)) $(BASE_FFLAGS)
+CFLAGS= $(C$(CODE)) $(BASE_CFLAGS)
+FPPFLAGS+= -Ixtras -DMPILIB_$(MPILIB) -DMPICOMP_$(MPICOMP) -DUSE_PETSC \
+  -DMATH_$(MATHLIB)
+CPPFLAGS+= -DMPILIB_$(MPILIB) -DMPICOMP_$(MPICOMP)
+
+# Libraries
+MKL_DIR=$(MKLPATH)
+PETSC_DIR := /work/d37/d37/wera/task2.6.1-benchmarks/trunk/CRESTA_BENCH/applications/ELMFIRE/src/petsc-3.2-p7
+PETSC_ARCH =archer_intel
+
+# Linker options
+LINK_PETSC := -L$(PETSC_DIR)/$(PETSC_ARCH)/lib -lpetsc
+
+LINK_MATH= -L$(MKLROOT)/lib/intel64/ -Wl,--start-group  -lmkl_intel_lp64  -lmkl_core -lmkl_sequential -lpthread -Wl,--end-group -ldl
+RNDGEN= MKL
+
+
+
+LINK_X = -lX11
+LINK_NFFT=
+
+LFLAGS= $(L$(CODE)) -threads
+LFLAGS+=${FLINKER} ${PETSC_LIB} $(LINK_MATH) $(LINK_PETSC)
+#$(LINK_MATH) $(LINK_NFFT)
+
+# Package-specific options (files that need special includes)
+
+PETSC_INCLUDES= -I$(PETSC_DIR)/include -I$(PETSC_DIR)/$(PETSC_ARCH)/include 
+   
+ # -I$(COMP_DIR)/include
+
+
+GSL_INCLUDES= -I$(GSL_DIR)/include
+#NFFT_INCLUDES= -I$(HOME)/nfft/include $(FFTW_INCLUDE_OPTS)
+USES_PETSC= elmParallel spaslv petscWrapper petsctest xtraChecks timingFunctions elmSolver 
+USES_GSL= gslWrapper
+
+
+# Specific sources
+SRCS=
+
+# ========== ARCH TARGETS =============
+
+archPreCompile:
+#ifeq ($(findstring mkl,$(LOADEDMODULES)),)
+#	$(error You have to load module mkl)
+#endif
+#ifeq ($(findstring petsc,$(LOADEDMODULES)),)
+#	$(error You have to load module PETSc)
+#endif
+ifeq ($(findstring fftw,$(LOADEDMODULES)),)
+	$(error You have to load module fftw)
+endif  
+	@true # Just in case there's nothing to do
+
+elmRandom.o: FPPFLAGS+= -DUSE_$(RNDGEN)_RANDOM

@@ -1,0 +1,66 @@
+<!--
+    CRESTA Benchmark Suite
+
+    JUBE benchmark configuration schema for: HEMELB
+
+    Contact: w.filinger@epcc.ed.ac.uk
+-->
+
+<bench name="HEMELB" platform="Cray-XC30-ARCHER" >
+
+<!-- Bifurcation Benchmark - 40 um - 10317 blocks with fluid sites -->
+
+<benchmark name="bif-40um" active="0">
+    <!-- version="reuse|new" -->
+    <compile     cname="$platform" version="reuse" />
+    <!-- HEMELB will crash when run on more than 429 nodes -->
+    <tasks       threadspertask="1" 
+		 taskspernode="24" 
+		 nodes="1,2,4,8,16,32,64" />
+    <params      time_limit="0:05:00"
+                 account="d37-ed"
+                 benchmark_name="bif-40um" />
+    <prepare     cname="bif-40um" />
+    <execution   iteration="1" cname="$platform" />
+    <verify      cname="HEMELB" />
+    <analyse     cname="$platform" />
+</benchmark>
+
+<!-- Bifurcation Benchmark - 50 um  - 1985 blocks with fluid sites -->
+
+<benchmark name="bif-50um" active="0">
+    <!-- version="reuse|new" -->
+    <compile     cname="$platform" version="reuse" />
+    <!-- HEMELB will crash when run on more than 82 nodes -->
+    <tasks       threadspertask="1" 
+		 taskspernode="24" 
+		 nodes="1,2,4,8,16,32,64" />
+    <params      time_limit="0:05:00"
+                 account="d37-ed"
+                 benchmark_name="bif-50um" />
+    <prepare     cname="bif-50um" />
+    <execution   iteration="1" cname="$platform" />
+    <verify      cname="HEMELB" />
+    <analyse     cname="$platform" />
+</benchmark>
+
+    
+<!-- cowTestVel_Large Benchmark - 178033 blocks with fluid sites  -->
+                                         
+<benchmark name="cowTestVel_Large" active="0">
+    <!-- version="reuse|new" -->
+    <compile     cname="$platform" version="reuse" />
+    <!-- HEMELB will crash when run on more than 7418 nodes  -->
+    <tasks       threadspertask="1" 
+		 taskspernode="24"
+                 nodes="1,2,4,8,16,32,64,128,256,512,1024,2048,4096" />
+    <params      time_limit="0:15:00"
+                 account="d37-ed"
+                 benchmark_name="cowTestVel_Large" />
+    <prepare     cname="cowTestVel_Large" />
+    <execution   iteration="1" cname="$platform" />
+    <verify      cname="HEMELB" />
+    <analyse     cname="$platform" />
+</benchmark>
+
+</bench>

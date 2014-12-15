@@ -1,0 +1,16 @@
+<preparation>
+
+<!-- ******************************************************************************** -->
+
+<prepare cname="ELMFIRE">
+    <input files="input/icri.inp.${size}" />
+    <substitute infile="icri.inp.${size}" outfile="icri.inp">
+    </substitute>
+</prepare>            
+
+<!-- ******************************************************************************** -->
+
+</preparation>
+
+
+

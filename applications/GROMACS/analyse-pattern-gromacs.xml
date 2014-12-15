@@ -1,0 +1,13 @@
+<patterns>
+
+<parm name="walltime" unit="s" mode="line" type="float">Time:\s*$patnfp\s*$patfp</parm>
+
+<parm name="sim_performance" unit="ns/day" mode="line" type="float">Performance:\s*$patfp\s*</parm>
+
+<parm name="av_load_imbalance" unit="percent" mode="line" type="float">\s*Average load imbalance:\s*$patfp</parm>
+
+<parm name="load_imb_loss" unit="percent" mode="line" type="float">\s*Part of the total run time spent waiting due to load imbalance:\s*$patfp</parm>
+
+<parm name="pp_pme_load_imb" unit="percent" mode="line" type="float">\s*Part of the total run time spent waiting due to PP/PME imbalance:\s*$patfp</parm>
+
+</patterns>

@@ -1,0 +1,75 @@
+<platforms>
+<!-- *************************************************************************** -->
+<!-- ** Compilers and libraries are chosen through modules.                   ** -->
+<!--*************************************************************************** -->
+    
+   <platform name="Cray-XC30-ARCHER">
+        <params
+            make            = "make"
+            rm              = "rm -f"
+            ar              = "ar"
+            arflags         = "-rs"
+            ranlib          = "ranlib"
+
+            cpp             = "cpp"
+            cppflags        = "-P"
+
+            f77             = "f77"
+            f77flags        = ""
+
+            f90             = "ftn"
+            f90flags        = ""
+
+            cc              = "cc"
+            cflags          = ""
+
+            cxx             = "CC"
+            cxxflags        = ""
+
+           
+	    mpi_f90         = "ftn"
+            mpi_f77         = "f77"
+            mpi_cc          = "cc"
+            mpi_cxx         = "CC"
+
+	    mpif77          = "f77"
+            mpif90          = "ftn"
+	    mpicc           = "cc"
+            mpicxx          = "CC"
+
+            ldflags         = ""
+
+            mpi_dir         = ""
+            mpi_lib         = ""
+            mpi_inc         = ""
+            mpi_bin         = ""
+
+            blas_dir        = ""
+            blas_lib        = ""
+            blas_inc        = ""
+
+            lapack_dir      = ""
+            lapack_lib      = ""
+            lapack_inc      = ""
+
+            fftw3_dir       = ""
+            fftw3_lib       = ""
+            fftw3_inc       = ""
+
+            fftw2_dir       = ""
+            fftw2_lib       = ""
+            fftw2_inc       = ""
+
+            netcdf3_dir     = ""
+            netcdf3_lib     = ""
+            netcdf3_inc     = ""
+
+            hdf5_dir        = ""
+            hdf5_lib        = ""
+            hdf5_inc        = ""
+
+            module_init     = ""
+            module_cmd      = "module load"
+        />
+    </platform>
+</platforms>

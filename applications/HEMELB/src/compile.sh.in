@@ -1,0 +1,31 @@
+#!/bin/sh
+########################################################################
+###                                                                  ###
+###   Compile script for HEMELB                                      ###
+###                                                                  ###
+###   Last modified: 2014-10-14                                      ###
+###                                                                  ###
+########################################################################
+
+export MAKE="#MAKE#"
+
+#MODULE_INIT#
+#MODULE_CMD# #MODULE_FILES#
+
+export CC="#CC#"
+export CXX="#CXX#"
+export XTPE_LINK_TYPE="dynamic"
+export LDFLAGS=-dynamic
+
+module swap gcc/4.9.1 gcc/4.8.2
+
+cd hemelb
+mkdir -p build 
+cd build
+cmake .. -DCMAKE_INSTALL_PREFIX=#OUTDIR# -DCMAKE_CXX_FLAGS="-dynamic" -DCMAKE_C_FLAGS="-dynamic" -DHEMELB_USE_ALL_WARNINGS_GNU="OFF" -DCMAKE_CXX_COMPILER="/opt/cray/craype/2.1.1/bin/CC" -DCMAKE_C_COMPILER="/opt/cray/craype/2.1.1/bin/cc" -DCPPUNIT_PATCH_LDL="OFF" -DCPPUNIT_PATCH_DYNAMIC="ON" -DHEMELB_OPTIMISATION="-O3" -DHEMELB_DEPENDENCIES_SET_RPATH="OFF" -DHEMELB_USE_SSE3="ON" -DCTEMPLATE_PATCH_ALIGN="ON" -DCTEMPLATE_USE_STATIC="OFF" -DHEMELB_COMPUTE_ARCHITECTURE="INTELSANDYBRIDGE" 
+
+$MAKE 
+
+cd #OUTDIR#
+mv bin/hemelb #EXECNAME#
+cp -r src/hemelb/dependencies/lib ../../../run/

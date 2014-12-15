@@ -1,0 +1,133 @@
+###############################################################################
+#                                                                             #
+#	  CRESTA BENCHMARK SUITE -                                            #
+#  	                          HEMELB (v.git commit                        #
+#				  4eefc9f6b55a29d8ec26f7b6de1605fff6357e6 )   #
+#                                                                             #
+###############################################################################
+
+
+1. PREPARATION
+
+   There is no need to modify any of the configuration files to run the HEMELB
+   benchmarks. All you need to do is to modify the bench-Cray-XC30-ARCHER.xml 
+   fil,e i.e. choose which example case and on what node configuration you want
+   to run (more about available options see CRESTA_BENCH/README file). 
+
+   HemeLB uses the GNU programming environment.   
+
+
+2. RUNNING BENCHMARKS
+
+    2.1 EXAMPLE CASES
+    
+    The CRESTA benchmark suite contains three test cases, which span a range 
+    of the sizes and are quite typical. They are: 
+    
+	* bifurcation 50um :
+
+	  	       BlockCounts = [13 36 27]
+        	       BlockSize = 8
+        	       TotalFluidSites = 650492
+        	       BlocksWithFluidSites = 1985
+
+
+	* bifurcation 40um :
+
+	  	       BlockCounts = [ 34 181 110]
+       		       BlockSize = 8
+        	       TotalFluidSites = 3164555
+        	       BlocksWithFluidSites = 10317
+	  	       
+		       
+	* cowTestVel_Large:
+
+		       BlockCounts = [267 209 148]
+        	       BlockSize = 8
+        	       TotalFluidSites = 73039365
+        	       BlocksWithFluidSites = 178033
+
+
+    The two bifurcations are based on a 3D rotational angiography scan of an 
+    anonymous patient with a cerebral aneurysm being treated at the National 
+    Hospital for Neurology and Neurosurgery. The simulations are of the region 
+    around the bifurcation of the internal carotid artery's bifurcation into the
+    anterior cerebral artery and the middle cerebral artery. The other case 
+    contains all the major arteries of the brain, focussing on the Circle of 
+    Willis.
+
+    
+    2.2. RUN OPTIONS
+
+    * VERSION
+    
+    There are two reasons why version=reuse (rather than version=new) should be
+    used whenever possible (i.e. if you are not modifying the source files)
+    when running HEMELB benchmarks. Firstly, the compilation step takes over 20
+    minutes. This is because this step also downloads and installs HemeLB 
+    dependencies (boost, cppunit, ctemplate, metis and tinyxml).This relates to 
+    the second reason - using version=new means that not only the source files 
+    are copied to the tmp directory, but the dependencies are downloaded and
+    installed there, which makes the tmp directory grow very rapidly. 
+  
+    HemeLB has been set up inside the CRESTA benchmark suite in such a way that 
+    at the end of the compilation step all relevant libraries are copied to the 
+    run directory along with the executable. This allows the user to set the 
+    version tag to ‘reuse’.    
+
+    
+    * NODES
+     
+    The number of nodes that can be used depends on the size of the problem. 
+    The strong scaling stops when there are roughly 1000 sites per core.	
+    If you try to run the program on a larger number of cores than there are 
+    ‘blocks with fluid sites’ the program will crash and you will get the 
+    following message for the remaining cores:
+
+    	PARMETIS ERROR: Poor initial vertex distribution. Processor XX has no 
+    	vertices assigned to it!
+
+    The number of MPI ranks needs to be smaller than the number of blocks with 
+    any fluid sites, which means that on ARCHER you can run a given case example
+    on up to BlocksWithFluidSites/24 nodes. 
+
+
+    * TIME_LIMIT
+
+    The time limit is set to allow the case example to complete on 1 node. If
+    you are running it on a larger number of nodes you may need to reduce this
+    limit.
+
+    
+
+    2.3 RESULTS
+
+    HemeLB reports four different values (local, min, mean and max) for each 
+    variable that is measured. The values extracted in the analysis step are 
+    the mean of the values measured on each processor. 
+        
+      * nodes -  number of nodes the benchmark has been run on
+      * ncpus -  number of processors the benchmark has been run on
+      * walltime - total time reported by HemeLB in seconds
+      * total_time - time spent in the simulation 
+      * LB_calc_only - time spent doing Lattice Boltzmann calculation only
+      * MPI_wait - time spent in mpi_wait calls
+      * MPI_send - time spent in mpi_send calls
+      * Monitoring - time spent monitoring different processes
+    
+
+    For more timing data from the HemeLB runs see report.txt file in the 
+    following directory:
+    
+	tmp/HEMELB_Cray-XC30-ARCHER_bench_bench_ID/node_info/results  
+    
+    The directory also contains report.xml file and two directories - Images 
+    and Extracted.   
+
+
+
+
+ 
+   
+
+

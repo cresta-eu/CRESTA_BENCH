@@ -1,0 +1,19 @@
+<verification>
+
+<!-- ******************************************************************************** -->
+<!-- predefined vars:
+     $subdir      -> execution dir of benchmark run
+     $stdoutfile  -> $stdout file of benchmark run
+     $stderrfile  -> $stderr file of benchmark run
+     $...         -> params from benchmark specification in toplevel dir     
+-->
+
+<verify cname="HEMELB">
+ <command>
+   perl run/check_results_hemelb.pl $subdir/verify.xml $stdoutfile  $stderrfile $subdir $subdir/results/report.txt ;
+ </command>
+</verify> 
+
+<!-- ******************************************************************************** -->
+
+</verification>

@@ -1,0 +1,31 @@
+<preparation>
+
+<!-- ******************************************************************************** -->
+
+<prepare cname="ion_channel">
+    <input files="input/ion_channel/bench.tpr" />
+</prepare>
+
+<prepare cname="ion_channel_vsites">
+    <input files="input/ion_channel_vsites/bench.tpr" />
+</prepare>
+
+<prepare cname="ion_channel_ljpme">
+    <input files="input/ion_channel_ljpme/bench.tpr" />
+</prepare>
+
+<prepare cname="vesicles">
+    <input files="input/vesicles/bench.tpr" />
+</prepare>
+
+<prepare cname="methanol">
+    <input files="input/methanol/bench.tpr" />
+</prepare>
+
+
+<!-- ******************************************************************************** -->
+
+</preparation>
+
+
+

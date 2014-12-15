@@ -1,0 +1,32 @@
+There is one benchmark system::
+d.meth7.7m:
+1.28 million methanol molecules in a cubic box, 7.7M atoms, with PME
+
+This system is intended to run at a PP:PME process ratio of 3:1;
+this has been tested with Gromacs version 4.5 on x86 systems,
+on other systems or with newer Gromacs versions this might differ.
+At the end of the md.log file the balance will be shown and a note
+is printed when the PP/PME imbalance is large.
+The PP/PME balance can be tuned by scaling rlist,rcoulomb,rvdw and
+fourier_spacing in grompp.mdp by the same amount.
+
+Benchmark procedure:
+Run grompp (without command line options) once for each dir to generate
+the topol.tpr, which is the (only) input for mdrun.
+Then run mdrun with the appropriate mpi command.
+The runtime appears at the end of the md.log log file.
+
+The number of steps in the grompp.mdp file can be changed to suit your needs.
+mdrun also has a -maxh option to limit the runtime. Usually a few minutes
+of timing are enough for accurate results.
+
+A meaningful mdrun command line is:
+mdrun -noconfout -resethway -maxh 0.1 -gcom 100
+
+-noconfout: no final output file (overhead which normally occurs once per day)
+-resethway: reset mdrun counters halfway the run so initialization cost is
+            removed from the timings in the log file
+-maxh 0.1:  run for 0.1 hour: 12 minutes (with -resethway: time last 6 min)
+-gcom 100:  global communication only every 100 steps
+
+We always report peformance in ns/day as printed at the end of the log file.

@@ -1,0 +1,22 @@
+<result>
+    <show active="1" colw="19">
+        nodes, ncpus,
+        sim_performance,
+	walltime,
+        av_load_imbalance,
+        load_imb_loss,
+        pp_pme_load_imb,
+    </show>
+    <sort>
+        ncpus, sim_performance
+    </sort>
+</result>
+
+<!-- all
+ sim_performance,
+ walltime,
+ av_load_imbalance,
+ load_imbalance_loss,
+ pp_pme_load_imbalance_loss,
+ vcomment
+-->

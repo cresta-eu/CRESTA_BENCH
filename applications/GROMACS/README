@@ -1,0 +1,169 @@
+###############################################################################
+#                                                                             #
+#	  CRESTA BENCHMARK SUITE -                                            #
+#  	                          GROMACS (version 5.0.2)                     #
+#                                                                             #
+#                                                                             #
+###############################################################################
+
+
+
+
+1. PREPARATION
+
+   There is no need to modify any of the configuration files to run GROMACS
+   benchmarks. All you need to do it set up the runs inside the bench-Cray-
+   XC30-ARCHER.xml file.  
+
+   By default GROMACS uses the GNU programming environment and a version of
+   FFTW it downloads and builds itself.
+   
+   
+
+
+2. RUNNING BENCHMARKS
+
+   2.1 CASES
+    
+   Currently the following case examples have been set up in the CRESTA 
+   benchmark suite:
+
+       * Ion channel  
+       
+        The ion channel system is the membrane protein GluCl, which is a
+	pentameric chloride channel embedded in a lipid bilayer. This system
+	contains roughly 150000 atoms, which is one of the most wanted target 
+	sizes for bio-molecular simulations due to the importance of these 
+	proteins for pharmaceutical applications.
+	
+
+       * Ion channel vsites 
+
+       	This is another instance of the ion channel system, but using virtual 
+       	interaction sites for hydrogens. 
+
+
+       * Ion channel LJ-PME
+
+       	This is another instance of the ion channel system, but using PME also
+       	for the long-ranged of the van der Waals.
+
+
+       * Vesicles - 250M 
+
+       	This benchmark consists of a two lipid vesicles tethered by a small 
+       	chemical linker, and is used to study fusion.The system size is quite 
+       	large, roughly 2 million atoms   
+     
+      
+       * Methanol - 100 timesteps
+ 
+     	This benchmarks simulates 1.28 million methanol molecules in a cubic 
+	box, 7.7M atoms, with PME. 
+
+       
+     
+   For more information about GROMACS benchmarks for massively parallel 
+   simulations see: 
+   
+	ftp://ftp.gromacs.org/pub/CRESTA/CRESTA_Gromacs_benchmarks_v3.tgz
+
+
+
+   2.2 USAGE GUIDELINES
+
+   The benchmark cases are set up to first run 1000 MD integration
+   steps, during which load balancing takes place. Then further
+   integration steps take place, as set in the .xml file variable
+   "basesteps", and scaled by the number of nodes, so that the
+   measured execution time of runs will be approximately the
+   same. This is useful because Gromacs performance is extremely
+   sensitive to network latency, and minimizing the exposure time
+   helps get reliable numbers on machines that are in
+   production. However, job-placement schedulers that do not place all
+   nodes from a job within the same level of (say) a switched
+   Infiniband network will rarely do a good job for Gromacs.
+
+   Gromacs supports an OpenMP implementation, but on machines lacking
+   accelerators, any benefit from using more than one core per MPI
+   rank will be observed only at the limits of scaling, and only when
+   the network conditions are quiet, as above. On BlueGene/Q, using
+   2-3 OpenMP threads per real core is advantageous, only because it
+   takes advantage of the way the A2 core can issue two instructions
+   per cycle, but only to separate threads.
+    
+
+   2.3 RUN OPTIONS
+
+
+   * VERSION
+   The source code is copied into the tmp directory every time the benchmarks
+   are run with the version tag set to 'new'. To avoid the tmp directory 
+   growing too large too fast use 'version=reuse'. If you are not modifying the
+   source files or linking new libraries then there is no need to ever use 
+   'version=new'.
+
+   Another reason to use 'version=reuse' is the compilation time - it takes
+   roughly 20 min to compile GROMACS. Parallel make is supported if you modify
+   the src/compile.sh.in file accordingly.
+
+
+   * NODES
+
+   GROMACS is using the PP:PME process ratio of 3:1 (particle-particle to
+   Particle mesh Ewald only nodes).Therefore only 3/4 of the nodes are used
+   during domain decomposition. 
+
+   If there is no decomposition for a particular number of nodes the program
+   will exit with an error message. For example, running the ion_channel 
+   benchmark with 1000 steps on 48 nodes (1152 processors) gives the following
+   message :
+
+
+    	Fatal error:
+	There is no domain decomposition for 864 nodes that is compatible with 
+	the given box and a minimum cell size of 1.08875 nm
+	Change the number of nodes or mdrun option -rcon or -dds or your LINCS
+	settings. Look in the log file for details on the domain decomposition
+	For more information and tips for troubleshooting, please check the 
+	GROMACS website at http://www.gromacs.org/Documentation/Errors
+
+        
+   Extracting maximum performance on given hardware requires careful tuning
+   of the available parameters. mdrun will do some things be default, but
+   the gmx tune_pme tool is useful for investigating alternatives, particularly
+   where the fine detail of the PP:PME ratio and .mdp settings need adaptation
+   for each other and the details of the hardware. This benchmarking
+   environment does not deploy gmx tune_pme.
+
+   * TASKSPERNODE and THREADSPERTASK
+
+   It is possible to use OpenMP threads when running GROMACS. The user can 
+   specify the number of the OpenMP threads through the THREADSPERTASK tag
+   inside the bench-*.xml file. The number should not exceed the number of 
+   available cores and should take into account the number of MPI processes. 
+   If the number of taskspernode * threadpertask (i.e. MPI processes * OpenMP 
+   threads) is larger than the number of cores in a node (24 on ARCHER) the job
+   will be aborted.  
+
+
+   2.3 RESULTS
+
+   The following results are extracted from the output logs:
+
+       * nodes - number of nodes
+       * ncpus - number of processors
+       * walltime - total time
+       * sim_performance - simulation performance, given in ns/day
+       * av_load_imbalance - average load imbalance, given in %
+       * load_imbalance_loos - part of the total run time spent waiting due to
+         the load imbalance, given in %
+       * pp_pme_load_imbalance_lose - part of the total run time spent waiting
+         due to PP/PME imbalance, given in %
+     
+
+
+
+
+   
+     

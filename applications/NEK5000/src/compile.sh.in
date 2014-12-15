@@ -1,0 +1,18 @@
+#!/bin/sh
+########################################################################
+###                                                                  ###
+###   Compile script for NEK5000                                     ###
+###                                                                  ###
+###   Last modified: 2014-10-21                                      ###
+###                                                                  ###
+########################################################################
+
+export MAKE="#MAKE#"
+
+#MODULE_INIT#
+
+
+#Compile NEK5000
+chmod 755 makenek_cresta
+./makenek_cresta #BENCHMARK_NAME#
+mv #OUTDIR#/src/nek5000 #EXECNAME#

@@ -1,0 +1,37 @@
+<execution>
+
+<!-- ******************************************************************************** -->
+
+<execute cname="Cray-XC30-ARCHER">
+    <input files="../../platform/Cray-XC30-ARCHER/cray_qsub.job.in" />
+
+    <substitute infile="cray_qsub.job.in" outfile="cray_qsub.job">
+        <sub from="#BENCHNAME#"         to="$benchname" />
+        <sub from="#OUTDIR#"            to="$outdir" />
+        <sub from="#STDOUTLOGFILE#"     to="$stdoutlogfile" />
+        <sub from="#STDERRLOGFILE#"     to="$stderrlogfile" />
+        <sub from="#TIME_LIMIT#"        to="$time_limit" />
+        <sub from="#TASKS#"             to="$nodes" />
+        <sub from="#TASKSPERNODE#"      to="$taskspernode" />
+        <sub from="#THREADSPERTASK#"    to="$threadspertask" />
+        <sub from="#OMP_NUM_THREADS#"   to="$threadspertask" />
+        <sub from="#EXECUTABLE#"        to="$executable" />
+        <sub from="#MODULE_INIT#"       to="" />
+        <sub from="#MODULE_CMD#"        to="module load" />
+        <sub from="#MODULE_FILES#"      to="" />
+        <sub from="#ENV#"               to="$env" />
+        <sub from="#PREPROCESS#"        to="corespernode=24; nsteps=$((1000 + $basesteps * (1+$nodes))); if [[ $(($taskspernode * $threadspertask)) > $corespernode ]]; then echo 'Exit - Tried to use more parallel tasks than real cores'; exit 0; fi " />
+        <sub from="#POSTPROCESS#"       to="" />
+        <sub from="#STARTER#"           to="aprun" />
+        <sub from="#ARGS_STARTER#"      to="-n $(($nodes * $taskspernode)) -N $taskspernode -d $(($corespernode / $taskspernode)) -S $(($taskspernode / 2))" />
+        <sub from="#MEASUREMENT#"       to="" />
+	<sub from="#ARGS_EXECUTABLE#"   to="-deffnm bench -noconfout -nsteps $nsteps -resetstep 1000 -gcom 100" />
+        <sub from="#ACCOUNT#"           to="$account" />
+    </substitute>
+
+    <command>qsub cray_qsub.job</command>
+</execute>
+
+<!-- *************************************************************** -->
+
+</execution>

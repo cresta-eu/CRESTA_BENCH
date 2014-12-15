@@ -1,0 +1,108 @@
+<!--
+    CRESTA Benchmark Suite
+
+    JUBE benchmark configuration schema for: GROMACS
+
+    Contact: w.filinger@epcc.ed.ac.uk
+             mark.j.abraham@gmail.com
+-->
+
+<bench name="GROMACS" platform="Cray-XC30-ARCHER" >
+<!-- one thread per real core -->
+
+<!-- Ion Channel Benchmarks -->
+
+<benchmark name="ion_channel" active="0">
+    <!-- version="reuse|new" -->
+    <compile     cname="$platform" version="reuse" toolchain="gnu"/>
+    <!-- No decomposition for 64 tasks -->
+    <tasks       taskspernode="24" 
+                 threadspertask="1"
+                 nodes="1,2,4,8,16"
+                 />
+    <params      time_limit="0:04:00"
+                 basesteps="1000"
+                 account="d37-ed" />
+    <prepare     cname="ion_channel" />
+    <execution   iteration="1" cname="$platform" />
+    <verify      cname="GROMACS" />
+    <analyse     cname="$platform" />
+</benchmark>
+
+<!-- Ion Channel Vsites Benchmarks -->
+
+<benchmark name="ion_channel_vsites" active="0">
+    <!-- version="reuse|new" -->
+    <compile     cname="$platform" version="reuse" toolchain="gnu" />
+    <!-- No decomposition for 64 tasks -->
+    <tasks       taskspernode="24" 
+                 threadspertask="1"
+                 nodes="1,2,4,8,16"
+                 />
+    <params      time_limit="0:04:00"
+                 basesteps="1000"
+                 account="d37-ed" />
+    <prepare     cname="ion_channel_vsites" />
+    <execution   iteration="1" cname="$platform" />
+    <verify      cname="GROMACS" />
+    <analyse     cname="$platform" />
+</benchmark>
+
+<benchmark name="ion_channel_ljpme" active="0">
+    <!-- version="reuse|new" -->
+    <compile     cname="$platform" version="reuse" toolchain="gnu"/>
+    <!-- No decomposition for 64 tasks -->
+    <tasks       taskspernode="24" 
+                 threadspertask="1"
+                 nodes="1,2,4,8,16"
+                 />
+    <params      time_limit="0:04:00"
+                 basesteps="1000"
+                 account="d37-ed" />
+    <prepare     cname="ion_channel_ljpme" />
+    <execution   iteration="1" cname="$platform" />
+    <verify      cname="GROMACS" />
+    <analyse     cname="$platform" />
+</benchmark>
+
+
+<!-- Vesicle Benchmark
+This simulation system is huge (2.5M atoms); you may want to run
+with a larger time_limit at low node counts -->
+
+<benchmark name="vesicles" active="0">
+    <!-- version="reuse|new" -->
+    <compile     cname="$platform" version="reuse" toolchain="gnu" />
+    <tasks       taskspernode="24" 
+                 threadspertask="1"
+                 nodes="1,2,4"
+                 />
+    <params      time_limit="0:15:00"
+                 basesteps="100"
+                 account="d37-ed" />
+    <prepare     cname="vesicles" />
+    <execution   iteration="1" cname="$platform" />
+    <verify      cname="GROMACS" />
+    <analyse     cname="$platform" />
+</benchmark>
+
+<!-- Methanol Benchmark -->
+
+<benchmark name="methanol" active="0">
+    <!-- version="reuse|new" -->
+    <compile     cname="$platform" version="reuse" toolchain="gnu" />
+    <!-- Runs on 128 nodes (at least)  -->
+    <tasks       taskspernode="24" 
+                 threadspertask="1"
+                 nodes="1,2,4,8,16,32,64,128"
+                 />
+    <params      time_limit="00:15:00"
+                 basesteps="100"
+                 account="d37-ed" />
+    <prepare     cname="methanol" />
+    <execution   iteration="1" cname="$platform" />
+    <verify      cname="GROMACS" />
+    <analyse     cname="$platform" />
+</benchmark>
+
+</bench>

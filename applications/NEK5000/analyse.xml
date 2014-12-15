@@ -1,0 +1,19 @@
+<analyzer>
+
+<!-- ******************************************************************************** -->
+<!-- Input is stdout and stderr of benchmark run -->
+<!-- Standard result parameter:
+     - walltime 
+-->
+
+<analyse cname="Cray-XC30-ARCHER">
+    <includepattern file="./analyse-pattern-nek5000.xml" />
+</analyse>
+
+
+<!-- ******************************************************************************** -->
+
+</analyzer>
+
+
+

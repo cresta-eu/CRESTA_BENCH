@@ -1,0 +1,20 @@
+<analyzer>
+
+<!-- ******************************************************************************** -->
+<!-- Input is stdout and stderr of benchmark run -->
+<!-- Standard result parameter:
+     - walltime 
+-->
+
+<analyse cname="Cray-XC30-ARCHER">
+      <input addfiles="$subdir/results/report.txt "/> 
+      <includepattern file="./analyse-pattern-hemelb.xml" />
+</analyse>
+
+
+<!-- ******************************************************************************** -->
+
+</analyzer>
+
+
+

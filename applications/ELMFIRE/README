@@ -1,0 +1,116 @@
+###############################################################################
+#                                                                             #
+#	  CRESTA BENCHMARK SUITE -                                            #
+#  	                          ELMFIRE (v.paco-v11)                        #
+#                                                                             #
+#                                                                             #
+###############################################################################
+
+
+
+1. PREPARATION
+
+   1.1 SOURCE CODE
+
+   Due to the licensing restrictions the CRESTA benchmark suite does not include 
+   the ELMFIRE source code. If you want to run the provided benchmarks you need to
+   obtain the source code and copy it into the src/elmfire-jh directory. 
+
+   In order to obtain the code, please contact the code owners:
+   http://physics.aalto.fi/groups/fusion/research/elmfire/
+
+   To compile the code on ARCHER you need makefile.archer and makefile.common,
+   which are provided in the src directory. Move them to the src/elmfire-jh/
+   xtras directory. 
+
+   The CRESTA benchmark has been set up for the ELMFIRE version paco-v11.
+   ELFIRE is using the Intel programming environment. 
+
+
+   1.2 PETSc libraries
+
+   ELMFIRE version paco-v11 requires version 3.2 of PETSc. This version is not
+   a default module on ARCHER. The source files for the correct version and the 
+   instructions on how to build the library are provided inside the src directory 
+   (petsc-3.2-p7.tar.gz). 
+ 
+   To install PETSc unpack the files (tar -xvf petsc-3.2-p7.tar.gz) and follow 
+   the instruction given in the README_PETSC file. 	
+
+   Once the correct libraries are installed you need to tell ELMFIRE where to 
+   look for them. You need to modify the path to the PETSc directory (PETSC_DIR)
+   and specify the PETSc architecture (PETSC_ARCH) in two files:
+   
+	* src/compile.sh.in (line 19 and line 20)
+	* src/elmfire-lj/xtras/makefile.archer (line 54 and line 55)
+
+
+2. RUNNING BENCHMARKS
+
+   2.1 CASES 
+    
+    
+   The CRESTA benchmark suite includes the ‘Bulanin’ case which is representative of the
+   cases run with ELMFIRE. The Bulanin case is a simulation of one specific FT-2
+   discharge for which there is good agreement between simulations and experimental 
+   measurements for micro-, meso- and macroscale quantities. 
+   (see : http://journals.aps.org/prl/abstract/10.1103/PhysRevLett.109.165001)
+
+    Input parameters for the following problem sizes are provided:
+
+    	  * scaling 256 - grid size 43 x 53 x 8 
+	    	    	  Block Size =     742
+			  Tree Size  =  498624
+	  
+	  * scaling 512 - grid size 61 x 75 x 8
+	    	    	  Block Size =    1500
+			  Tree Size  = 1008000
+	    	    	  
+	  * scaling 1024 - grid size 86 x 106 x 8
+	    	    	   Block Size =    3003
+			   Tree Size  = 2018016
+	  
+	  * scaling 2048 - grid size 121 x 150 x 8
+	    	    	   Block Size =    6000
+			   Tree Size  = 4032000
+	  
+    
+    The 'inipos alarm' message in the stdout log file for scaling 256, 512 and 
+    1024 is a result of correcting of the initial position of the particles.
+
+	  
+    2.2 RUN OPTIONS
+
+    * NODES
+
+    As part of the set-up process the above benchmarks have been run on up to
+    128 nodes. The scaling 1024 and scaling 2048 executed without any problems
+    on every number of nodes used (1, 2, 4, 8, 16, 32, 64 and 128). The remaining
+    two benchmarks produce run time errors when run on larger numbers of nodes. 
+    Running scaling 256 bench on 128 nodes gives the following error messages:
+
+    	    saveipr: Not enough memory in dam(eori)
+  
+    Running scaling 256 on 64 nodes and scaling 512 on 128 nodes gives 'Runge 
+    failed' and 'FCN Error message'.
+
+    
+    2.3 RESULTS
+
+    The following information is included in the results:
+
+    	  * nodes - gives the number of nodes the bench has been run on
+	  * ncpus - gives the number of cores the bench has been run on
+	  * walltime - walltime given in seconds
+	  * cputime - cpu time given in seconds 
+	  * init_particles - gives time spent performing particle initialisation
+	  * loop_600 - time needed to go through 600 steps of the time loop
+	    conducting binary collisions 
+	  * loop_1600 - time needed to go through 1600 steps of the time loop
+	    conducting binary collisions
+	  * matrix_inv - time spent doing inversion of the Poisson equation
+	  * data_trans - time spent gathering the results from all mpi processes
+
+    
+    
+	

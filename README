@@ -1,0 +1,211 @@
+################################################################################
+#                                                                              #
+#                     CRESTA BENCHMARK SUITE                                   #
+#                                                                              #
+################################################################################
+
+
+ This document describes briefly how to use the CRESTA benchmark suite based
+ on the JuBE benchmarking environment developed by the Forschungszentrum 
+ Juelich Supercomputing Centre (jube-jsc@fz-juelich.de). The license is provided
+ in the CRESTA_BENCH/LICENCE file.   
+
+
+
+1. PREPARATION
+
+   If you are running the CRESTA benchmark suite on ARCHER you do not need to
+   modify any top-level configuration files describing the platform specifics 
+   (platform directory) or any of the benchmark environment scripts (bench 
+   directory). 
+   However, some of the applications require setting up. 
+ 
+
+   1.1. APPLICATIONS
+
+   Most of the applications included in the CRESTA benchmark suite do not 
+   require any preparation to run within the framework. However, for licensing
+   reasons, the source code of some applications cannot be provided directly 
+   with the CRESTA benchmark suite. In these cases you need to obtain the 
+   application source and copy it into the relevant src directory. More 
+   detailed instructions for each application are provided inside their README 
+   files. 
+
+   	- ELMFIRE - requires PETSc 3.2 and source code
+	- GROMACS - modify benchmark script only
+	- HEMELB -  modify benchmark script only
+	- NEK5000 - modify benchmark script only 
+
+
+   1.2. BENCHMARK SCRIPT 
+
+   To run a specific benchmark for a specific application you need to go into 
+   a directory of that application and modify the bench-Cray-CX30-ARCHER.xml 
+   file accordingly. 
+
+   For example, to run the GROMACS ion channel benchmark only once on 1, 4 and
+   16 nodes (i.e. on 24, 96 and 384 mpi processes)the bench-Cray-CX30-ARCHER.xml
+   inside applications/GROMACS directory would look like this: 
+
+
+       	     <benchmark name="ion_channel_1000" active="1">
+    	         <compile     cname="$platform" version="new" />
+                 <tasks       threadspertask="1" 
+		 	      taskspernode="24" 
+			      nodes="1,4,16" />
+    	         <params      time_limit="0:04:00"
+                 	      account="d37-ed"
+                 	      basesteps="1000" />
+                 <prepare     cname="ion_channel" />
+    		 <execution   iteration="1" cname="$platform" />
+    		 <verify      cname="GROMACS" />
+    		 <analyse     cname="$platform" />
+	    </benchmark>
+
+
+   The following tags control different aspects of the benchmark run:
+
+      * active = 0 or 1 -  the benchmark will be run if 1 is chosen
+      * version = new or reuse - new will recompile the source code, reuse will
+      	reuse the executable from the previous runs
+      * threadspertask - how many threads run on each parallel proces; only 
+        GROMACS supports multiple number of OpenMP threads per task; for other
+	applications is should be set to 1 (i.e.one thread per process)
+      * taskpernode - how many mpi processes run on each node; unless you are 
+        running GROMACS using multiple number of OpenMP threads (see GROMACS/
+	README) the best perfromance on ARCHER is observed when taskpernode is 
+	set to 24 (i.e. one mpi process per core)   
+      * nodes - specifies the number of nodes 
+      * time_limit - sets the time limit for the execution of each benchmark run
+      * account - the project account on ARCHER 
+      * iteration - number of times the job for each configuration will be 
+      	submitted (e.g. if in the above example iteration=2 the ion channel
+	benchmark would be run twice on 1,4 and 16 nodes). 
+
+
+  Usually you only need to modify the values of the active, version and nodes 
+  tags. The time_limit variable is adjusted to the time required to execute the
+  benchmark on 1 node so may be reduced if the benchmark is run on a larger 
+  number of nodes only. 
+
+  Some of the applications are copying the source files into a tmp directory 
+  to compile the code, therefore in order to save space version=reuse should be
+  used whenever possible. The only exception is NEK5000, which in some cases 
+  requires the version tag to be set to new. For more information please look 
+  inside the README file within the NEK5000 directory.
+    
+  Please note: on ARCHER, the job launcher allows only 16 outstanding jobs per 
+  user, so if you start more benchmark runs some of them will fail.
+
+
+2. RUNNING BENCHMARKS  
+
+   2.1. COMPILATION AND EXECUTION
+
+   After preparing the application and benchmark scripts all that is needed to 
+   submit a benchmark is to run the JuBE script from within the given 
+   application directory (the directory containing the relevant 
+   bench-Cray-XC30-ARCHER.xml file).   
+
+    	
+           perl ../../bench/jube bench-Cray-XC30-ARCHER.xml
+  
+
+   This will compile the source code (or copy the executable if the reuse 
+   option is used) and launch the job on the compute nodes via the batch system.
+
+   Each set of benchmark runs (i.e. the same case example run on a different 
+   number of nodes but submitted at the same time) has its own ID, which is used
+   to keep track of the log files that are being produced. 
+
+   Each run of JuBE will produce a number of log files stored in the benchlog, 
+   logs and xmllogs directories, and temporary compilation files the tmp 
+   directory.  
+
+      * benchlog directory contains the output of the jube script 
+      	- benchlog_bench_ID.log
+      * logs directory contains the stdout and stderr of the job run on the
+      	compute nodes
+      	- application_Cray-XC30-ARCHER_bench_name_bench_ID.node_info_stderr.log 
+	- application_Cray-XC30-ARCHER_bench_name_bench_ID.node_info_stdout.log	
+      * xmllogs directory contains the xml log files 
+      	- benchlog_application_Cray-XC30-ARCHER_bench_name_bench_ID_node_info.log
+	- benchlog_application_Cray-XC30-ARCHER_bench_name_bench_ID_node_info.longlog
+
+      * tmp directory contains separate directories for each bench_ID, which
+      	contain separate directories for each node configuration, which
+	contain the input files, executable (and source files if version=new),
+	output files (out and err) for each stage of the benchmark run
+	(i.e. compile, execute and verify) and depending on application 
+	may also contain other files. 
+  
+      	
+   2.2. VERIFICATION AND ANALYSIS
+ 
+   Once the batch jobs have completed, the benchmark framework may be used to 
+   extract the results. Again, you need to be inside the specific application
+   directory and run:  
+    
+	  perl ../../bench/jube -update -result <bench ID>
+
+
+   As mentioned before bench_ID is given to each benchmark run. Different runs 
+   of the same case (i.e. same case run on different number of nodes) 
+   submitted at the same time will have the same ID but _different_ cases 
+   submitted at the same time will have different IDs. 
+
+   The results are printed both to the screen and to the file 
+   (results/application_Cray-XC30-ARCHER_bench_XX_ID.dat).
+
+   If the analysis step has been run before all the relevant jobs have completed
+   it is possible to include them in the .dat file run analysis step again
+   with added the force flag:
+
+         perl ../../bench/jube -force -update -result <bench ID>  
+
+
+   Clearing out log files etc
+   --------------------------
+
+   To remove all logs and results of the benchmark runs remove the following 
+   directories from the specific application directory : 
+   
+   benchlog, logs, results, tmp and xmllogs
+
+   To reset the bench ID to 0 remove .bench_current_id.dat file.  
+
+
+   If you are interested in extracting other data from the output files, modify 
+   analyse-pattern-elmfire.xml and results.xml files. If the data you are 
+   interested in is not part of the stdout or stderr files you need to specify 
+   the relevant file in the analysis.xml file (e.g. see analysis.xml inside the 
+   HEMELB directory). 
+
+
+   Verification error
+   ------------------   
+
+   If you see the error “failed to verify” at the verification step of the
+   analysis, you should in the fist instance confirm that you have permission
+   to execute the run/check-results_application.pl script. If not, then run 
+
+   	  chmod 775 run/check-results_elmfire.pl
+     
+
+   2.3. ADDING new test cases
+
+   
+   To add other test cases for the applications included in the CRESTA
+   benchmark suite (adding new application is more complicated so see
+   JuBE Benchmarking Environment documentation for that) you need to:
+     
+     * add input files inside the input directory of the application 
+     * add new bench case in the bench-Cray-XC30-ARCHER.xml
+     * add new case in the prepare.xml file (which will copy the input
+       files).
+
+
+
+	
+
+

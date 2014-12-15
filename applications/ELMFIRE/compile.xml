@@ -1,0 +1,38 @@
+<compilation>
+
+<!-- predefined vars:
+   $outdir -> output directory for temporary compile files
+   $id     -> identifier of this benchmark run
+-->
+
+<!-- *************************************************************** -->
+
+<compile cname="Cray-XC30-ARCHER">
+    <params fflags=""
+	    mpif90="ftn"
+            libpath=""
+            libs=""
+            optflags=""
+            ldflags=""
+            cppflags="" />
+    <!-- Specification of source files to copy into temporary build directory -->
+    <src directory="./src" files="elmfire-jh/* make_cresta.in compile.sh.in"/>
+    <!-- Create Makefile and substitute parameters -->
+    <substitute infile="make_cresta.in" outfile="make_cresta">
+        <sub from="#ELMDIR#" to="$outdir" />
+    </substitute>
+    <substitute infile="compile.sh.in" outfile="compile.sh">
+        <sub from="#MAKE#" to="$make" />
+        <sub from="#MODULE_INIT#" to="module swap PrgEnv-cray PrgEnv-intel" />
+        <sub from="#MODULE_CMD#" to="$module_cmd" />
+        <sub from="#MODULE_FILES#" to="gsl fftw " />
+        <sub from="#OUTDIR#" to="$outdir" />
+        <sub from="#EXECNAME#" to="$execname" />
+    </substitute>
+                                                
+    <!-- issue build command -->
+    <command>/bin/bash --login compile.sh</command>
+</compile>
+
+<!-- *************************************************************** -->
+</compilation>

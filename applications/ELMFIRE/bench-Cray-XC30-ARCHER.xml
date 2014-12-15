@@ -1,0 +1,76 @@
+<!--
+    CRESTA Benchmark Suite
+
+    JUBE benchmark configuration schema for: ELMFIRE
+
+    Contact: w.filinger@epcc.ed.ac.uk
+-->
+
+<bench name = "ELMFIRE" platform = "Cray-XC30-ARCHER" >
+
+
+<benchmark name="scaling_256" active="0">
+    <!-- version="reuse|new" -->
+    <compile     cname="$platform" version="reuse" />
+    <!--Runs on up to 32 nodes  -->
+    <tasks       threadspertask="1"
+                 taskspernode="24"
+                 nodes="1,2,4,8,16,32" />
+    <params      time_limit="0:10:00"
+                 account="d37-ed"
+                 size="256" />
+    <prepare     cname="ELMFIRE" />
+    <execution   iteration="1" cname="$platform" />
+    <verify      cname="ELMFIRE" />
+    <analyse     cname="$platform" />
+</benchmark>
+
+<benchmark name="scaling_512" active="0">
+    <!-- version="reuse|new" -->
+    <compile     cname="$platform" version="reuse" />
+    <!-- Runs on up to 64 nodes -->
+    <tasks       threadspertask="1"
+                 taskspernode="24"
+                 nodes="1,2,4,8,16,32,64" />
+    <params      time_limit="0:20:00"
+                 account="d37-ed"
+                 size="512" />
+    <prepare     cname="ELMFIRE" />
+    <execution   iteration="1" cname="$platform" />
+    <verify      cname="ELMFIRE" />
+    <analyse     cname="$platform" />
+</benchmark>
+
+<benchmark name="scaling_1024" active="1">
+    <!-- version="reuse|new" -->
+    <compile     cname="$platform" version="reuse" />
+    <!-- Runs on up to at least 128 nodes  -->
+    <tasks       threadspertask="1"
+                 taskspernode="24"
+                 nodes="1,2,4,8,16,32,64,128" />
+    <params      time_limit="1:00:00"
+                 account="d37-ed"
+                 size="1024" />
+    <prepare     cname="ELMFIRE" />
+    <execution   iteration="1" cname="$platform" />
+    <verify      cname="ELMFIRE" />
+    <analyse     cname="$platform" />
+</benchmark>
+                                                                                
+<benchmark name="scaling_2048" active="1">
+    <!-- version="reuse|new" -->
+    <compile     cname="$platform" version="reuse" />
+    <!-- Runs on up to at least 128 nodes  -->
+    <tasks       threadspertask="1" 
+		 taskspernode="24" 
+		 nodes="1,2,4,8,16,32,64,128" />
+    <params      time_limit="2:00:00"
+                 account="d37-ed"
+                 size="2048" />
+    <prepare     cname="ELMFIRE" />
+    <execution   iteration="1" cname="$platform" />
+    <verify      cname="ELMFIRE" />
+    <analyse     cname="$platform" />
+</benchmark>
+
+</bench>

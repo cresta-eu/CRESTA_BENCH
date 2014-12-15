@@ -1,0 +1,31 @@
+<patterns>
+
+<parm name="walltime" unit="s" mode="line" type="float">Total:\s*$patfp\s*$patnfp$</parm>
+
+<parm name="cputime" unit="s" mode="line" type="float">Total:\s*$patnfp\s*$patfp$</parm>
+
+<parm name="init_particles" unit="s" mode="line" type="float">
+Init Particles:\s*$patfp\s*$patnfp$
+</parm>
+
+<parm name="loop_600" unit="s" mode="line" type="float">
+Loop 600:\s*$patfp\s*$patnfp$
+</parm>
+
+<parm name="loop_1600" unit="s" mode="line" type="float">
+Loop 1600:\s*$patfp\s*$patnfp$
+</parm>
+
+<parm name="matrix_inv" unit="s" mode="line" type="float">
+Matrix inversion:\s*$patfp\s*$patnfp$
+</parm>
+
+<parm name="data_trans" unit="s" mode="line" type="float">
+Data transfer \+ AV:\s*$patfp\s*$patnfp$
+</parm>
+
+<parm name="particle_redist" unit="s" mode="line" type="float">
+Particle redistrib:\s*$patfp\s*$patnfp$
+</parm>
+
+</patterns>

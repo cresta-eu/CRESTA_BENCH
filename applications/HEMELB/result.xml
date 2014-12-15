@@ -1,0 +1,33 @@
+<result>
+    <show active="1" colw="15">
+      nodes, ncpus,
+      walltime, simulation_time, LB_calc_only, 
+      MPI_wait, MPI_send, Monitoring
+    </show>
+    <sort>
+      ncpus, walltime
+    </sort>
+</result>
+
+<!-- all
+ HPMwtimeSum,    
+ HPMwtimeAvg,    
+ HPMutimeSum,    
+ HPMwtimeAvg,    
+ HPMstimeSum,    
+ HPMstimeAvg,    
+ HPMressizeSum,  
+ HPMressizeAvg,  
+ HPMtflopsSum,   
+ HPMtflopsAvg,   
+ HPMflopsWCT,    
+ HPMflopsUser,   
+ HPMFMPpercSum,     
+ HPMFMPpercAvg,     
+ HPMpercPeakSum, 
+ HPMpercPeakAvg, 
+ HPMflopsCPU,    
+ HPMflopsUserCPU,
+ HPMflopsCPUglobal,
+ walltime
+-->
