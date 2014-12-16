@@ -1,0 +1,5 @@
+#!/bin/bash
+tar -zcvf bench.tpr.tar.gz bench.tpr
+split -b 40m bench.tpr.tar.gz bench_tpr_tar_gz
+rm bench.tpr
+rm bench.tpr.tar.gz

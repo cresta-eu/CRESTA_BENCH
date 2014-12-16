@@ -1,0 +1,5 @@
+#!/bin/bash
+cat bench_tpr_tar_gz* > bench.tpr.tar.gz
+tar -zxvf bench.tpr.tar.gz
+rm bench_tpr_tar_gz*
+rm bench.tpr.tar.gz

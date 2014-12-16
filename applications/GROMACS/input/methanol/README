@@ -1,0 +1,6 @@
+If you checked this repository out from GitHub then please run the combine_bench_tpr shell script first to put together the bench_tpr input file.
+
+Prior to committing any changes to the bench.tpr back in to the GitHub repository then please execute the split_bench_tpr shell script first.
+
+ 
+ 
