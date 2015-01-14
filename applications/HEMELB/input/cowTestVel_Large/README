@@ -1,0 +1,3 @@
+If you checked this repository out from GitHub then please run the combine_CircleofWillis_3 shell script first to put together the CircleofWillis_3.3e-5.gmy file.
+
+Prior to committing any changes to the CircleofWillis_3.3e-5.gmy back in to the GitHub repository please execute the split_CircleofWillis_3 shell script first.

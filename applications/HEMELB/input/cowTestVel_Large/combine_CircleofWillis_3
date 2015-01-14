@@ -1,0 +1,5 @@
+#!/bin/bash
+cat CircleofWillis_3_tar_gz* > CircleofWillis_3.3e-5.gmy.tar.gz
+tar -zxvf CircleofWillis_3.3e-5.gmy.tar.gz
+rm CircleofWillis_3_tar_gz*
+rm CircleofWillis_3.3e-5.gmy.tar.gz

@@ -1,0 +1,5 @@
+#!/bin/bash
+tar -zcvf CircleofWillis_3.3e-5.gmy.tar.gz CircleofWillis_3.3e-5.gmy
+split -b 40m CircleofWillis_3.3e-5.gmy.tar.gz CircleofWillis_3_tar_gz
+rm CircleofWillis_3.3e-5.gmy
+rm CircleofWillis_3.3e-5.gmy.tar.gz
