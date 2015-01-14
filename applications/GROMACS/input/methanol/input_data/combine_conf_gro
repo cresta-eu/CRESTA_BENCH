@@ -1,0 +1,5 @@
+#!/bin/bash
+cat conf_gro_tar_gz* > conf.gro.tar.gz
+tar -zxvf conf.gro.tar.gz
+rm conf_gro_tar_gz*
+rm conf.gro.tar.gz

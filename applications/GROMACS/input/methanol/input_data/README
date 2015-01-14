@@ -1,0 +1,3 @@
+If you checked this repository out from GitHub then please run the combine_conf_gro shell script first to put together the conf_gro file.
+
+Prior to committing any changes to the conf_gro back in to the GitHub repository then please execute the split_conf_gro shell script first.

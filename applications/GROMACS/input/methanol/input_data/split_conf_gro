@@ -1,0 +1,5 @@
+#!/bin/bash
+tar -zcvf conf.gro.tar.gz conf.gro
+split -b 40m conf.gro.tar.gz conf_gro_tar_gz
+rm conf.gro
+rm conf.gro.tar.gz
