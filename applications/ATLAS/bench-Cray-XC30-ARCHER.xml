@@ -1,0 +1,29 @@
+<!--
+    CRESTA Benchmark Suite
+
+    JUBE benchmark configuration schema for: ATLAS
+
+    Contact: w.filinger@epcc.ed.ac.uk
+-->
+
+<bench name="ATLAS" platform="Cray-XC30-ARCHER" >
+
+<!--  -->
+
+<benchmark name="ATLAS" active="1">
+    <!-- version="reuse|new" -->
+    <compile     cname="$platform" version="reuse" />
+    <!--  -->
+    <tasks       threadspertask="1" 
+		 taskspernode="12,8,6,4" 
+		 nodes="1,2,4,6" />
+    <params      time_limit="00:10:00"
+                 account="d37-ed"
+                 benchmark_name="ATLAS" />
+    <prepare     cname="ATLAS" />
+    <execution   iteration="1" cname="$platform" />
+    <verify      cname="ATLAS" />
+    <analyse     cname="$platform" />
+</benchmark>
+
+</bench>

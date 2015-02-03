@@ -1,0 +1,21 @@
+<patterns>
+
+<parm name="real_time" unit="s" mode="line" type="string">\s*real\s*$patwrd</parm>
+
+<parm name="checksum" unit="" mode="line" type="string">\s*checksum:\s*$patwrd</parm>
+
+<parm name="threads" unit="" mode="line" type="int">OpenMP threads per MPI task:\s*$patint\s*</parm>
+
+<parm name="difference" unit="" mode="line" type="string">difference =\s*$patwrd\s*</parm>
+
+<parm name="walltime" unit="" mode="line" type="int">real\s*$patint\s*</parm>
+
+
+<parm name="maxval" unit="s" mode="line" type="string">maxval:\s*$patwrd\s*</parm>
+
+<parm name="minval" unit="s" mode="line" type="string">\s*minval:\s*$patwrd</parm>
+
+<parm name="norm" unit="s" mode="line" type="string">\s*norm:\s*$patwrd</parm>
+
+
+</patterns>

@@ -1,0 +1,30 @@
+#!/bin/sh
+########################################################################
+###                                                                  ###
+###   Compile script for ATLAS                                       ###
+###                                                                  ###
+###   Last modified: 2015-01-08                                      ###
+###                                                                  ###
+########################################################################
+
+export MAKE="#MAKE#"
+
+#MODULE_INIT#
+#MODULE_CMD# #MODULE_FILES#
+
+export CC="#CC#"
+export CXX="#CXX#"
+
+
+cd AtlasBenchmarkSuite-v1.0.0
+mkdir -p build 
+cd build
+cmake .. -DCMAKE_INSTALL_PREFIX=#OUTDIR# 
+ 
+
+$MAKE -j10
+$MAKE install
+
+cd #OUTDIR#
+mv bin/atlas-benchmark #EXECNAME#
+cp -r lib ../../../run/

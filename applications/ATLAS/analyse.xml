@@ -1,0 +1,19 @@
+<analyzer>
+
+<!-- ******************************************************************************** -->
+<!-- Input is stdout and stderr of benchmark run -->
+<!-- Standard result parameter:
+     - sim_performance
+-->
+
+<analyse cname="Cray-XC30-ARCHER">
+    <includepattern file="./analyse-pattern-atlas.xml" />
+</analyse>
+
+
+<!-- ******************************************************************************** -->
+
+</analyzer>
+
+
+

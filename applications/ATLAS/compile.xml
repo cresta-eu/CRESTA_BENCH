@@ -1,0 +1,36 @@
+<compilation>
+
+<!-- predefined vars:
+   $outdir -> output directory for temporary compile files
+   $id     -> identifier of this benchmark run
+-->
+
+<!-- *************************************************************** -->
+
+<compile cname="Cray-XC30-ARCHER">
+    <params fflags=""
+            libpath=""
+            libs=""
+            optflags=""
+            ldflags=""
+            cppflags="" />
+    <!-- Specification of source files to copy into temporary build directory -->
+    <src directory="./src" files="AtlasBenchmarkSuite-v1.0.0.tar  compile.sh.in"/>
+
+    <!-- Create Makefile and substitute parameters -->
+    <substitute infile="compile.sh.in" outfile="compile.sh">
+        <sub from="#MAKE#" to="$make" />
+	<sub from="#MODULE_INIT#"  to="module swap PrgEnv-cray PrgEnv-gnu" />
+        <sub from="#MODULE_CMD#"   to="$module_cmd" />
+        <sub from="#MODULE_FILES#" to="cmake" />
+        <sub from="#CC#"           to="$cc" />
+	<sub from="#CXX#"          to="$cxx"/>
+    	<sub from="#OUTDIR#"       to="$outdir" />
+        <sub from="#EXECNAME#"     to="$execname" />
+    </substitute>
+   
+    <command>/bin/bash --login compile.sh</command>
+</compile>
+                                                                                                                                    
+<!-- *************************************************************** -->
+</compilation>

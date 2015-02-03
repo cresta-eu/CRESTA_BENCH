@@ -1,0 +1,124 @@
+###############################################################################
+#                                                                             #
+#	  CRESTA BENCHMARK SUITE -                                            #
+#  	                          ATLAS (v1.0.0)                              #
+#				                                              #
+#                                                                             #
+###############################################################################
+
+
+1. PREPARATION
+
+   There is no need to modify any of the configuration files to run the ATLAS
+   benchmarks. All you need to do is to modify the bench-Cray-XC30-ARCHER.xml 
+   file i.e. choose on what node configuration you want to run (more about 
+   available options see CRESTA_BENCH/README file). 
+
+   ATLAS uses the GNU programming environment.   
+
+
+2. RUNNING BENCHMARKS
+
+    2.1 EXAMPLE CASES
+    
+    The ATLAS benchmark consists of executing a gradient computation followed by
+    a halo-exchange. Timing statistics for the total duration of one iteration 
+    are generated (including halo-exchange), as well as for the duration of the 
+    halo-exchange separately.
+
+    Finally the benchmark results are verified against the pre-computed results,
+    and indicate success if the difference is less than 1%. Results are expected
+    to be bit-identical changing the used number of MPI-tasks and OMP-threads. 
+    For this purpose, a checksum on **all** bits of the full 3D gradient field 
+    is computed, and should be verified manually.
+
+    The default settings for the benchmark were :
+        - N1280 horizontal resolution (~8km)
+	- 137 levels
+	- 100 iterations of a gradient computation followed by a halo-exchange
+
+    The jobs with the above configuration were being terminated when executed on
+    small number of MPI processes on 1 and 2 nodes (memory issues) so the 
+    horizontal resolution has been changed to N640. To change these settings
+    the line containing ARGS_EXECUTABLE inside the execute.xml file needs
+    to be modified accordingly. 
+
+       
+    2.2. RUN OPTIONS
+
+    * VERSION
+    
+    There are two reasons why version=reuse (rather than version=new) should be
+    used whenever possible (i.e. if you are not modifying the source files)
+    when running ATLAS benchmark. Firstly, the compilation step takes almost  
+    10 minutes. This is because this step also downloads and installs ATLAS 
+    dependencies (ecbuild and eckit). This relates to the second reason - using 
+    version=new means that not only the source files are copied to the tmp 
+    directory, but the dependencies are downloaded and installed there, which 
+    makes the tmp directory grow very rapidly. 
+  
+    ATLAS has been set up inside the CRESTA benchmark suite in such a way that 
+    at the end of the compilation step all relevant libraries are copied to the 
+    run directory along with the executable. This allows the user to set the 
+    version tag to 'reuse'.    
+
+    
+    * NODES
+     
+    There are no known limits on the number of nodes that can be used. The 
+    higher resolution runs require more memory so a larger number of nodes 
+    should be used otherwise the jobs will be terminated. 
+    
+    * TASKSPERNODE & THREADSPERTASK
+
+    The taskspernode and threadspertask variables determine the number of MPI 
+    processes and OpenMP threads, respectively. Because JUBE does not provide 
+    the sufficient level of control over the combination of these variables 
+    an additional steps were taken to ensure that the number of (MPI processes *
+    OpenMP threads) is not larger than available number of real cores, otherwise
+    the jobs will be submitted to the backend but will fail to execute.
+    Therefore the variable threadspertasks is automatically overwritten with the
+    value of (# of real cores/ taskspernode). To avoid the submission of these 
+    'useless' jobs the value of threadspertasks should be always set to 1.  
+    
+
+    * TIME_LIMIT
+
+    The time limit is set to allow the case example (N640) to complete on 1 node
+    using 2 MPI processes and 12 OpenMP threads. If you are running it on a 
+    larger number of nodes, different MPIxOpenMP configuration, different model
+    resolution or different number of steps you may need to modify the time 
+    limit accordingly. 
+
+       
+
+    2.3 RESULTS
+
+    The following information are extracted in the analysis step: 
+        
+      * nodes - number of nodes the benchmark has been run on
+      * ncpus - number of MPI processes the benchmark has been run on
+      * threads - number of OpenMP threads the benchmark has been run on
+      * real_time -  real time reported by linux time command 
+      * difference - percentage difference between benchmark and pre-computed 
+        results (need to be below 1%) 
+      * checksum - a checksum on **all** bits of the full 3D gradient field, 
+        the value should be the same for all MPIxOMP configurations
+
+
+    Additional information like configuration settings and detailed timings for
+    each iteration can be found inside the log/ATLAS..._stdout.log files.
+    If you wish the values of maxval, minval and norm to be printed to the
+    screen as well, remove the '<!--' and '-->' from result.xml file and 
+    remember to use -force -update flags when running the analysis step.   
+    
+
+   
+
+
+
+
+ 
+   
+
+

@@ -1,0 +1,18 @@
+<result>
+    <show active="1" colw="24">
+        nodes, ncpus,threads,
+	real_time,
+	difference,
+	checksum,
+<!--
+    maxval, 
+    minval,
+    norm
+-->
+    
+    </show>
+    <sort>
+        nodes,ncpus, threads
+    </sort>
+</result>
+
